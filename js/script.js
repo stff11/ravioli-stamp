@@ -193,7 +193,10 @@ function renderPayPalButtons(totalPrice) {
       label: "pay",
     },
     createOrder: (data, actions) => {
-      return fetch("/api/create-order", {
+      const apiBase = location.hostname === "localhost"
+        ? "http://localhost:3000"
+        : "https://ravioli-stamp.vercel.app";
+      return fetch(`${apiBase}/api/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ cart }),
