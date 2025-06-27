@@ -40,7 +40,7 @@ function validateCart(cart) {
     if (
       typeof item.name !== 'string' ||
       item.name.trim() === '' ||
-      item.name.length > window.MAX_LENGTH ||
+      item.name.length > 50 ||
       typeof item.quantity !== 'number' ||
       item.quantity < 1 ||
       !Number.isInteger(item.quantity)
