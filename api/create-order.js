@@ -79,13 +79,13 @@ export async function POST(request) {
         purchase_units: [{
           amount: {
             currency_code: 'GBP',
-            value: totalAmount.toFixed(2),
-            breakdown: {
-              item_total: {
-                currency_code: 'GBP',
-                value: totalAmount.toFixed(2),
-              }
-            }
+            value: totalAmount.toFixed(2)
+            // breakdown: {
+            //   item_total: {
+            //     currency_code: 'GBP',
+            //     value: totalAmount.toFixed(2),
+            //   }
+            // }
           },
           description: 'Custom Ravioli Stamps',
           items: cart.map(item => ({
