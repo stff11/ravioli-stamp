@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Personalised Ravioli Stamp</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Ravioli Stamps</h1>
+    <p class="subtitle">Handcrafted. Personalised. Perfect for Gifting or Professional Kitchens.</p>
+    <a href="order.html" id="cart-icon" class="cart-icon" title="View your cart">🛒</a>
+  </header>
+
+  <main>
+    <!-- Mobile: stacked images -->
+    <div class="mobile-promo">
+      <div class="promo-image">
+        <img src="images/stamp.jpeg" alt="Personalised Ravioli Stamp">
+      </div>
+      <div class="promo-image">
+        <img src="images/stamp2.jpeg" alt="Ravioli Stamp in Action">
+      </div>
+    </div>
+
+    <!-- Desktop: background image promo -->
+    <div class="desktop-promo">
+      <div class="promo-overlay">
+        <p>Surprise someone you love or show off in your restaurant.</p>
+        <a href="order.html" class="cta-button">Buy Now</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Ravioli Stamp Co.</p>
+  </footer>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cartIcon = document.getElementById("cart-icon");
+    if (!cartIcon) return;
+
+    const savedCart = JSON.parse(localStorage.getItem("ravioliCart") || "[]");
+
+    const totalQty = savedCart.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (totalQty > 0) {
+      cartIcon.innerHTML = `🛒 <span>${totalQty}</span>`;
+    }
+  });
+</script>
+
+</body>
+</html>
