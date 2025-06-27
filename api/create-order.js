@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import { fetch } from 'undici';
 
 const isLive = process.env.PAYPAL_ENV === 'live';
 
@@ -40,7 +40,7 @@ function validateCart(cart) {
     if (
       typeof item.name !== 'string' ||
       item.name.trim() === '' ||
-      item.name.length > 16 ||
+      item.name.length > window.MAX_LENGTH ||
       typeof item.quantity !== 'number' ||
       item.quantity < 1 ||
       !Number.isInteger(item.quantity)
