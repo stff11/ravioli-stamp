@@ -67,8 +67,11 @@ export async function POST(request) {
     const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
     let totalAmount = totalQuantity * PRICE_PER_STAMP;
+    let discountAmount = 0;
+
     if (totalQuantity >= DISCOUNT_THRESHOLD) {
-      totalAmount = totalAmount * (1 - DISCOUNT_RATE);
+      discountAmount = totalAmount * DISCOUNT_RATE;
+      totalAmount = totalAmount - discountAmount;
     }
 
     const accessToken = await getAccessToken();
@@ -83,6 +86,10 @@ export async function POST(request) {
             item_total: {
               currency_code: 'GBP',
               value: sumOfItems.toFixed(2),
+            },
+            discount: {
+              currency_code: 'GBP',
+              value: discountAmount.toFixed(2),
             }
           }
         },
