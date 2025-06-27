@@ -23,7 +23,6 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   min-height: 100vh;
-  padding: 1rem;
 }
 
 a {
@@ -32,7 +31,7 @@ a {
 
 header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   position: relative;
 }
 
@@ -40,6 +39,7 @@ header h1 {
   font-family: var(--font-serif);
   font-size: 2.5rem;
   margin-bottom: 0.25rem;
+  margin: 0;
 }
 
 header .subtitle {
@@ -51,11 +51,6 @@ header .subtitle {
   position: relative;
   text-align: center;
   padding: 1rem 0;
-}
-
-.header-row h1 {
-  margin: 0;
-  font-size: 2rem;
 }
 
 .home-icon {
@@ -101,7 +96,7 @@ header .subtitle {
 /* DESKTOP: hero background with overlay */
 .desktop-promo {
   display: none;
-  background: url('https://i.imgur.com/sDJ6kgX.png') center center / cover no-repeat;
+  background: url('../images/promo.png') center center / cover no-repeat;
   height: 500px;
   position: relative;
   border-radius: 12px;
@@ -305,6 +300,14 @@ footer {
 @media (max-width: 600px) {
   header h1 {
     font-size: 1.3rem;
+  }
+
+  .promo-overlay {
+    top: 85%;
+    width: 90%;
+  }
+  .promo-overlay p {
+    font-size: 1.15rem;
   }
 
   .form-section {
