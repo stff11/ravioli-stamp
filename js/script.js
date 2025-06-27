@@ -85,7 +85,7 @@ function renderCart() {
         removeBtn.style.cursor = "pointer";
         removeBtn.style.border = "none";
         removeBtn.style.background = "transparent";
-        removeBtn.style.color = "var(--color-accent)";
+        removeBtn.style.color = "var(--rosso)";
         removeBtn.style.fontWeight = "bold";
         removeBtn.addEventListener("click", () => {
           cart.splice(i, 1);
@@ -104,7 +104,7 @@ function renderCart() {
 
   // Always show discount note
   if (discountApplied) {
-    discountNote.textContent = `10% discount applied for buying ${totalQty} or more stamps!`;
+    discountNote.textContent = `10% discount applied!`;
   } else {
     discountNote.textContent = "10% discount when buying 5 or more!";
   }
@@ -129,7 +129,7 @@ function renderCart() {
         removeBtn.style.cursor = "pointer";
         removeBtn.style.border = "none";
         removeBtn.style.background = "transparent";
-        removeBtn.style.color = "var(--color-accent)";
+        removeBtn.style.color = "var(--rosso)";
         removeBtn.style.fontWeight = "bold";
         removeBtn.addEventListener("click", () => {
           cart.splice(i, 1);
@@ -161,7 +161,7 @@ function renderCart() {
         removeBtn.style.cursor = "pointer";
         removeBtn.style.border = "none";
         removeBtn.style.background = "transparent";
-        removeBtn.style.color = "var(--color-accent)";
+        removeBtn.style.color = "var(--rosso)";
         removeBtn.style.fontWeight = "bold";
         removeBtn.addEventListener("click", () => {
           cart.splice(i, 1);
@@ -207,7 +207,7 @@ function renderPayPalButtons(totalPrice) {
     onApprove: (data, actions) => {
       return actions.order.capture().then((details) => {
         alert(
-          `Transaction completed by ${details.payer.name.given_name}! Thank you for your purchase.`
+          `Thank you for your purchase ${details.payer.name.given_name}!`
         );
         cart.length = 0;
         renderCart();
