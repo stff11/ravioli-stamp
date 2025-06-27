@@ -59,13 +59,44 @@ export async function POST(request) {
       return new Response(JSON.stringify({ error: 'Invalid cart data' }), { status: 400 });
     }
 
+    const sumOfItems = cart.reduce(
+      (sum, item) => sum + PRICE_PER_STAMP * item.quantity,
+      0
+    );
+
     const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
     let totalAmount = totalQuantity * PRICE_PER_STAMP;
     if (totalQuantity >= DISCOUNT_THRESHOLD) {
       totalAmount = totalAmount * (1 - DISCOUNT_RATE);
     }
 
     const accessToken = await getAccessToken();
+
+    const orderBody = {
+      intent: 'CAPTURE',
+      purchase_units: [{
+        amount: {
+          currency_code: 'GBP',
+          value: totalAmount.toFixed(2),
+          breakdown: {
+            item_total: {
+              currency_code: 'GBP',
+              value: sumOfItems.toFixed(2),
+            }
+          }
+        },
+        description: 'Custom Ravioli Stamps',
+        items: cart.map(item => ({
+          name: item.name,
+          unit_amount: {
+            currency_code: 'GBP',
+            value: PRICE_PER_STAMP.toFixed(2),
+          },
+          quantity: item.quantity.toString(),
+        })),
+      }],
+    };
 
     // Create PayPal order
     const orderRes = await fetch(`${PAYPAL_API}/v2/checkout/orders`, {
@@ -74,30 +105,7 @@ export async function POST(request) {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        intent: 'CAPTURE',
-        purchase_units: [{
-          amount: {
-            currency_code: 'GBP',
-            value: totalAmount.toFixed(2)
-            // breakdown: {
-            //   item_total: {
-            //     currency_code: 'GBP',
-            //     value: totalAmount.toFixed(2),
-            //   }
-            // }
-          },
-          description: 'Custom Ravioli Stamps',
-          items: cart.map(item => ({
-            name: item.name,
-            unit_amount: {
-              currency_code: 'GBP',
-              value: PRICE_PER_STAMP.toFixed(2),
-            },
-            quantity: item.quantity.toString(),
-          })),
-        }],
-      }),
+      body: JSON.stringify(orderBody),
     });
 
     const orderData = await orderRes.json();
