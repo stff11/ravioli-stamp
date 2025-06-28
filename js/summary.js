@@ -1,6 +1,8 @@
 // This script handles the order summary display on order.html
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM fully loaded, starting render...");
+  
   const cartSummaryDiv = document.getElementById("cart-summary");
   const cartSummaryMobileDiv = document.getElementById("cart-summary-mobile");
   const cartIconCount = document.getElementById("cart-count");

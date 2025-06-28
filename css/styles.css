@@ -516,11 +516,10 @@ main#order-page {
 #paypal-button-container {
   margin-top: 2rem;
   text-align: center; /* Center PayPal buttons horizontally */
-  max-width: 400px; /* Max width for the button container */
+  width: 350px; /* max-width won't work here for some reason */
   margin-left: auto; /* Center the container itself */
   margin-right: auto; /* Center the container itself */
   padding: 1rem; /* Add some padding around the buttons */
-  /* Added specific styles for the PayPal iframe/buttons to ensure they are clickable */
   position: relative; /* Ensure it establishes a stacking context */
   z-index: 1; /* Give it a z-index to bring it forward if needed */
 }
