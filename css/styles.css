@@ -379,40 +379,44 @@ main#order-page {
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.order-summary-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  min-width: 600px; /* A minimum width to ensure columns are not too squished before overflow */
+/* Cart summary new div-based layout */
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.order-summary-table thead tr {
-  background-color: #f1f1f1;
-  border-bottom: 1px solid var(--color-border);
+.cart-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-card-bg);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.table-header-cell,
-.table-body-cell {
-  padding: 0.8rem;
-  border-bottom: 1px solid #eee;
-  vertical-align: top; /* Align content to the top */
+.cart-item > div {
+  flex: 1 1 100px;
+  min-width: 80px;
 }
 
-.table-header-cell {
-  font-size: 0.9rem;
-  color: #555;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  white-space: nowrap; /* Prevent headers from wrapping */
-}
-
-.table-body-cell {
-  font-size: 0.95rem;
-  white-space: normal; /* Allow cell content to wrap */
-}
-
-.table-body-cell.font-semibold {
+.cart-item .item-name {
   font-weight: 600;
+  flex-basis: 100%;
+}
+
+.cart-item .item-qty input.quantity-input {
+  width: 60px;
+}
+
+.cart-item .item-remove {
+  text-align: right;
+  flex: 0 0 auto;
 }
 
 .text-right {

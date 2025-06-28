@@ -47,23 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
       cartSummaryMobileDiv.classList.remove("hidden");
     }
 
-    // Build the order summary table
     summaryHtml += `
       <h2 class="order-summary-title">Your Order Summary</h2>
-      <div class="cart-table-container">
-        <table class="order-summary-table">
-          <thead>
-            <tr class="table-header-row">
-              <th class="table-header-cell">Product</th>
-              <th class="table-header-cell">Color</th>
-              <th class="table-header-cell">Personalization</th>
-              <th class="table-header-cell text-right">Quantity</th>
-              <th class="table-header-cell text-right">Price/Item</th>
-              <th class="table-header-cell text-right">Line Total</th>
-              <th class="table-header-cell text-center">Remove</th>
-            </tr>
-          </thead>
-          <tbody>
+      <div class="cart-list">
     `;
 
     cart.forEach(item => {
@@ -85,35 +71,31 @@ document.addEventListener("DOMContentLoaded", () => {
         : 'N/A';
 
       summaryHtml += `
-        <tr class="table-body-row" data-identifier="${item.identifier}">
-          <td class="table-body-cell font-semibold">${item.productName || 'Unknown Product'}</td>
-          <td class="table-body-cell">${item.color || 'N/A'}</td>
-          <td class="table-body-cell text-sm">${personalizationText}</td>
-          <td class="table-body-cell text-right">
+        <div class="cart-item" data-identifier="${item.identifier}">
+          <div class="item-name">${item.productName || 'Unknown Product'}</div>
+          <div class="item-color">${item.color || 'N/A'}</div>
+          <div class="item-details">${personalizationText}</div>
+          <div class="item-qty">
             <input type="number"
                    min="1"
                    max="999"
                    value="${itemQuantity}"
                    class="quantity-input"
                    data-identifier="${item.identifier}">
-          </td>
-          <td class="table-body-cell text-right">£${itemPrice.toFixed(2)}</td>
-          <td class="table-body-cell text-right">£${lineTotal.toFixed(2)}</td>
-          <td class="table-body-cell text-center">
+          </div>
+          <div class="item-price">£${itemPrice.toFixed(2)}</div>
+          <div class="item-total">£${lineTotal.toFixed(2)}</div>
+          <div class="item-remove">
             <button class="remove-item-btn"
                     data-identifier="${item.identifier}">
-              &times; <!-- HTML entity for 'X' -->
+              &times;
             </button>
-          </td>
-        </tr>
+          </div>
+        </div>
       `;
     });
 
-    summaryHtml += `
-          </tbody>
-        </table>
-      </div>
-    `;
+    summaryHtml += `</div>`;
 
     let finalTotal = subtotal;
     let discountApplied = false;
