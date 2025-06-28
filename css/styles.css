@@ -23,6 +23,8 @@ body {
   color: var(--color-text);
   line-height: 1.6;
   min-height: 100vh;
+  display: flex; /* For sticky footer layout */
+  flex-direction: column; /* For sticky footer layout */
 }
 
 a {
@@ -33,6 +35,9 @@ header {
   text-align: center;
   margin-bottom: 1rem;
   position: relative;
+  background: var(--color-card-bg); /* Add background to header */
+  padding-bottom: 1rem; /* Adjust padding for better look */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
 }
 
 header h1 {
@@ -58,7 +63,7 @@ header .subtitle {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 1.5rem;
+  font-size: 2rem;
   text-decoration: none;
   color: var(--color-accent);
 }
@@ -74,6 +79,10 @@ header .subtitle {
   border-radius: 999px;
   font-size: 0.9rem;
   font-weight: bold;
+  display: flex; /* For aligning text and count */
+  align-items: center;
+  gap: 0.25rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 /* MOBILE: stacked images */
@@ -139,141 +148,374 @@ header .subtitle {
   background: var(--color-accent-dark);
 }
 
-/* Order page */
-.home-icon {
-  font-size: 1.5rem;
-  text-decoration: none;
-  color: var(--color-accent);
+/* Product Gallery */
+.product-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 2rem auto;
+  width: 700px; /* Fixed width for desktop */
+  max-width: 90%; /* Max width for responsiveness */
 }
 
-main#order-page {
-  max-width: 700px;
-  margin: 0 auto;
-  flex: 1;
-}
-
-/* Form styling */
-.form-section {
+.product-item {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center; /* Vertically center items in row */
   background: var(--color-card-bg);
-  padding: 1.5rem;
   border: 1px solid var(--color-border);
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.03);
-  margin-bottom: 2rem;
+  padding: 1.5rem; /* Increased padding */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08); /* More pronounced shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
 }
 
-.form-section label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+.product-item:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15); /* Stronger shadow on hover */
 }
 
-.form-section input {
+.product-image {
+  flex: 0 0 200px; /* fixed width image column */
+  max-width: 200px;
+  overflow: hidden; /* Hide overflow for image scale effect */
+  border-radius: 8px;
+}
+
+.product-image img {
   width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  font-size: 1rem;
+  height: auto;
+  border-radius: 8px;
+  display: block; /* Remove extra space below image */
+  transition: transform 0.3s ease; /* Smooth scale transition */
 }
 
-.qty-total-wrap {
+.product-item:hover .product-image img {
+  transform: scale(1.05); /* Subtle zoom on image hover */
+}
+
+.product-info {
+  flex: 2;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
+  justify-content: space-between; /* Push button to bottom */
+  height: 100%; /* Ensure info section takes full height of card */
+  padding-left: 1rem; /* Add some left padding for spacing from image */
 }
 
-input#stamp-qty {
-  width: 50%;
+.product-info h3 {
+  font-size: 1.4rem; /* Slightly larger heading */
+  margin-bottom: 0.75rem; /* More space below heading */
+  color: var(--color-accent-dark);
 }
 
-#live-total {
+.product-info p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem; /* Consistent spacing */
+}
+
+.product-info .price { /* New class for price */
+  font-size: 1.3rem; /* Larger price */
   font-weight: bold;
-  color: var(--color-accent);
+  color: var(--rosso); /* Highlight price with rosso color */
+  margin-top: 1rem; /* Space before price */
+  margin-bottom: 1.5rem; /* Space after price before button */
 }
 
-#discount-note {
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--rosso);
-}
-
-.hidden {
-  display: none;
-}
-
-button#add-to-cart {
+/* Specific styling for the 'Buy' button within product cards */
+.product-info .buy-button {
+  display: block; /* Make button take full width in product info */
+  width: 100%;
+  padding: 0.75rem 1.5rem; /* Larger padding for button */
+  margin-top: auto; /* Push button to the bottom if content is short */
+  font-size: 1.1rem; /* Larger font size for button text */
   background: var(--color-accent);
   color: #fff;
   border: none;
-  padding: 0.7rem 1.2rem;
-  font-size: 1rem;
-  border-radius: 6px;
+  border-radius: 8px; /* Slightly more rounded */
   cursor: pointer;
-  transition: background 0.2s;
-  display: block;
-  margin: auto;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-button#add-to-cart:hover {
+.product-info .buy-button:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.product-info .buy-button:active {
+  transform: translateY(0); /* Press effect */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+/* Product Overlay Modal */
+#product-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#product-overlay.hidden {
+  display: none;
+}
+
+.overlay-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.overlay-content h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.overlay-content label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+  font-weight: 600;
+}
+
+.overlay-content input,
+.overlay-content textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.color-options {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.color-swatch {
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  outline: none;
+}
+
+.color-swatch.selected {
+  border: 2px solid var(--color-accent);
+}
+
+.overlay-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.overlay-buttons button {
+  flex: 1;
+  padding: 0.6rem;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.overlay-buttons button:hover {
   background: var(--color-accent-dark);
 }
 
-#cart-icon.animate {
-  animation: cart-bounce 0.4s ease;
+/* Order page */
+main#order-page {
+  flex: 1; /* Allows main content to grow and push footer down */
+  display: flex; /* Use flexbox to center content */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center horizontally */
+  padding: 1rem; /* Add some padding */
 }
 
-@keyframes cart-bounce {
-  0%   { transform: scale(1); }
-  25%  { transform: scale(1.15); }
-  50%  { transform: scale(0.95); }
-  75%  { transform: scale(1.05); }
-  100% { transform: scale(1); }
+.cart-empty-message {
+  text-align: center;
+  color: #666;
+  font-size: 1.2rem;
+  margin-top: 2rem;
 }
 
-.cart-summary {
-  position: absolute;
-  top: 3rem;
-  right: 1rem;
-  background: white;
-  border: 1px solid var(--color-border);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  min-width: 200px;
+.order-summary-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.cart-table-container {
+  overflow-x: auto; /* For responsive tables on small screens */
+  width: 100%;
+  max-width: 900px; /* Max width for the table container */
+  margin: 0 auto 1.5rem auto; /* Center table and add bottom margin */
+  padding: 1rem;
+  background: var(--color-card-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.order-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 600px; /* A minimum width to ensure columns are not too squished before overflow */
+}
+
+.order-summary-table thead tr {
+  background-color: #f1f1f1;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table-header-cell,
+.table-body-cell {
+  padding: 0.8rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: top; /* Align content to the top */
+}
+
+.table-header-cell {
   font-size: 0.9rem;
-  z-index: 10;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap; /* Prevent headers from wrapping */
 }
 
-.cart-summary ul {
-  list-style: none;
-  padding: 0;
+.table-body-cell {
+  font-size: 0.95rem;
+  white-space: normal; /* Allow cell content to wrap */
+}
+
+.table-body-cell.font-semibold {
+  font-weight: 600;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.quantity-input {
+  width: 60px; /* Fixed width for quantity input */
+  padding: 0.4rem;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  -moz-appearance: textfield; /* Hide spin buttons for Firefox */
+}
+
+/* Hide spin buttons for Chrome, Safari, Edge */
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
   margin: 0;
 }
 
-.cart-summary li {
-  padding: 0.25rem 0;
-  border-bottom: 1px solid #eee;
+
+.remove-item-btn {
+  background: none;
+  border: none;
+  color: var(--rosso); /* Using the rosso variable for the X */
+  font-size: 1.5rem; /* Larger 'X' */
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+  padding: 0.5rem; /* Increased padding for better touch target */
+  min-width: 44px; /* Ensure minimum touch target size */
+  min-height: 44px; /* Ensure minimum touch target size */
+  display: inline-flex; /* To center the X within the button */
+  justify-content: center;
+  align-items: center;
 }
 
-.cart-summary li:last-child {
-  border-bottom: none;
+.remove-item-btn:hover {
+  color: #a00; /* Darker red on hover */
 }
 
-.cart-summary-mobile {
+.summary-totals {
+  width: 100%;
+  max-width: 900px; /* Align with table width */
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: var(--color-card-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   margin-top: 1.5rem;
-  font-size: 0.95rem;
-  border-top: 1px solid var(--color-border);
-  padding-top: 1rem;
-}
-.cart-summary-mobile ul {
-  list-style: none;
 }
 
-/* PayPal button */
+.summary-subtotal {
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.summary-final-total {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: right;
+  color: var(--color-accent);
+}
+
+.discount-note {
+  padding: 0.8rem;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.discount-applied {
+  background-color: #e6ffe6; /* Light green */
+  color: #008000; /* Dark green text */
+  border: 1px solid #c8e6c9;
+}
+
+.discount-info {
+  background-color: #e6f7ff; /* Light blue */
+  color: #007bff; /* Dark blue text */
+  border: 1px solid #cceeff;
+}
+
+/* PayPal button container styling for centering and size */
 #paypal-button-container {
   margin-top: 2rem;
-  text-align: center;
+  text-align: center; /* Center PayPal buttons horizontally */
+  width: 350px; /* Width for the button container */
+  margin-left: auto; /* Center the container itself */
+  margin-right: auto; /* Center the container itself */
+  padding: 1rem; /* Add some padding around the buttons */
+}
+
+.hidden {
+  display: none !important; /* Use !important to ensure override */
 }
 
 /* Footer */
@@ -283,7 +525,7 @@ footer {
   font-size: 0.9rem;
   background: var(--color-footer-bg);
   color: #555;
-  margin-top: 2rem;
+  margin-top: auto; /* Push footer to the bottom */
 }
 
 /* Responsive breakpoints */
@@ -295,32 +537,169 @@ footer {
   .desktop-promo {
     display: block;
   }
+
+  /* Ensure desktop summary is always visible and centered */
+  .cart-summary {
+    display: block !important;
+    position: relative; /* Revert from absolute positioning */
+    top: auto;
+    right: auto;
+    min-width: unset;
+    font-size: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    margin: 2rem auto; /* Center it on the page */
+    max-width: 900px; /* Control its width */
+    width: 95%; /* Responsive width */
+  }
+
+  .cart-summary-mobile {
+    display: none !important; /* Hide mobile summary on desktop */
+  }
+
+  .header-row #cart-icon {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+  }
 }
 
-@media (max-width: 600px) {
-  header h1 {
-    font-size: 1.3rem;
+@media (max-width: 767px) {
+  .cart-summary {
+    display: none !important; /* Hide desktop summary on small screens */
   }
 
-  .promo-overlay {
-    top: 85%;
+  /* Ensure mobile summary is always visible and centered */
+  .cart-summary-mobile {
+    display: block !important;
+    position: relative;
+    margin: 1rem auto; /* Center below header */
+    width: 95%; /* Adjust width for mobile */
+    padding: 1rem;
+    background: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+
+  .cart-summary-mobile .order-summary-table {
+    font-size: 0.85rem; /* Smaller font for mobile table */
+  }
+
+  /* Ensure all columns are visible on small screens by default */
+  /* Horizontal scrolling will handle overflow if table is too wide */
+  .table-header-cell,
+  .table-body-cell {
+    display: table-cell; /* Explicitly show all cells */
+  }
+  
+  /* Increased touch target for buttons/inputs on mobile */
+  .remove-item-btn {
+      padding: 0.8rem; /* More padding */
+      font-size: 1.8rem; /* Larger 'X' */
+      min-width: 48px; /* Larger minimum touch target */
+      min-height: 48px; /* Larger minimum touch target */
+  }
+
+  .quantity-input {
+      width: 65px; /* Slightly wider input for better tapping */
+      padding: 0.6rem; /* More padding */
+      font-size: 1rem; /* Slightly larger font */
+  }
+
+  /* Adjust image size on mobile */
+  .product-item {
+    flex-direction: column; /* Stack image and info vertically */
+    align-items: center; /* Center content horizontally */
+    text-align: center; /* Center text */
+  }
+  
+  .product-image {
+    flex: none; /* Remove flex constraints */
+    width: 80%; /* Take up more width */
+    max-width: 250px; /* Cap at a reasonable size */
+    margin-bottom: 1rem; /* Space below image */
+  }
+
+  .product-image img {
+    width: 100%; /* Ensure image fills its container */
+    height: auto;
+  }
+
+  .product-info {
+    padding-left: 0; /* Remove left padding for mobile stacking */
+    padding-top: 1rem; /* Add top padding from image */
+  }
+
+  .table-header-cell {
+      padding: 0.6rem 0.4rem; /* Reduced padding for mobile table headers */
+      font-size: 0.8rem;
+  }
+  .table-body-cell {
+      padding: 0.6rem 0.4rem; /* Reduced padding for mobile table body cells */
+      font-size: 0.85rem;
+  }
+
+  .product-gallery {
     width: 90%;
   }
-  .promo-overlay p {
-    font-size: 1.15rem;
+
+  .product-info {
+    text-align: center;
   }
 
   .form-section {
     padding: 1rem;
   }
 
-  #cart-icon {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
-  }
-
   .cta-button {
     font-size: 0.9rem;
     padding: 0.6rem 1.2rem;
+  }
+}
+
+/* Adjustments for even smaller screens (e.g., mobile portrait) */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.8rem;
+  }
+  .header-row #cart-icon {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+  .promo-overlay {
+    top: 80%; /* Adjust position for very small screens */
+    padding: 1rem 1.5rem;
+  }
+  .promo-overlay p {
+    font-size: 1.2rem;
+  }
+
+  .order-summary-title {
+    font-size: 1.5rem;
+  }
+  /* Further reduced padding for very small screens */
+  .table-header-cell,
+  .table-body-cell {
+    padding: 0.4rem; /* Even smaller padding */
+    font-size: 0.75rem; /* Even smaller font size */
+  }
+  .quantity-input {
+    width: 45px; /* Smaller input for quantity */
+    font-size: 0.8rem;
+  }
+  .remove-item-btn {
+    font-size: 1.2rem; /* Smaller 'X' */
+  }
+  .summary-subtotal {
+    font-size: 1rem;
+  }
+  .summary-final-total {
+    font-size: 1.3rem;
+  }
+  .discount-note {
+    font-size: 0.85rem;
   }
 }

@@ -8,7 +8,7 @@
 
   <!-- Declare MAX_LENGTH as a global JS constant -->
   <script>
-    const MAX_LENGTH = 50;
+    const MAX_LENGTH = 10;
     window.MAX_LENGTH = MAX_LENGTH;
   </script>
 </head>
@@ -22,25 +22,11 @@
       </div>
     </div>
     <p class="subtitle">Handcrafted. Personalised. Perfect for Gifting or Professional Kitchens.</p>
-    <div id="cart-summary" class="cart-summary hidden"></div>
-    <div id="cart-summary-mobile" class="cart-summary-mobile"></div>
+    <div id="cart-summary" class="cart-summary"></div>
+    <div id="cart-summary-mobile" class="cart-summary-mobile hidden"></div>
   </header>
 
   <main id="order-page">
-    <div class="form-section">
-      <label for="stamp-name" id="label-name"></label>
-      <input type="text" id="stamp-name" required />
-
-      <label for="stamp-qty">Quantity:</label>
-      <div class="qty-total-wrap">
-      <input type="number" id="stamp-qty" value="1" min="1" max="999" />
-      <span id="live-total">= £14.99</span>
-      </div>
-      <div id="discount-note" class="hidden">10% discount applied</div>
-
-      <button id="add-to-cart">Add to Cart</button>
-    </div>
-
     <div id="paypal-button-container"></div>
   </main>
 
@@ -54,6 +40,6 @@
     defer>
   </script>
 
-  <script src="js/script.js" defer></script>
+  <script src="js/summary.js" defer></script>
 </body>
 </html>

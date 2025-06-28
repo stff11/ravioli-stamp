@@ -1,252 +1,229 @@
-const stampNameInput = document.getElementById("stamp-name");
-const stampQtyInput = document.getElementById("stamp-qty");
-const addToCartBtn = document.getElementById("add-to-cart");
-const cartCount = document.getElementById("cart-count");
-const cartTotalEl = document.getElementById("cart-total");
-const cartIcon = document.getElementById("cart-icon");
-const liveTotal = document.getElementById("live-total");
-const discountNote = document.getElementById("discount-note");
-const paypalContainer = document.getElementById("paypal-button-container");
-const cartItemsList = document.getElementById("cart-items");
+// Overlay logic
+const overlay = document.getElementById("product-overlay");
+const buyButtons = document.querySelectorAll(".buy-button");
+let selectedProduct = null; // Will store the full product object, not just its name
 
-const PRICE_PER_STAMP = 14.99;
-const DISCOUNT_THRESHOLD = 5;
-const DISCOUNT_RATE = 0.10;
+// Using a single constant price for all stamps, assuming it's defined elsewhere (e.g., script.js)
+// If this price needs to be fetched dynamically or vary per product, this logic would need adjustment.
+const STAMP_BASE_PRICE = 14.99; 
 
-const cart = [];
+// Initialize cart from localStorage or as an empty array
+// This ensures that the cart data persists even if the user closes and reopens the browser.
+let cart = JSON.parse(localStorage.getItem("ravioliCart")) || [];
 
-// Restore cart from localStorage if available
-const savedCart = JSON.parse(localStorage.getItem("ravioliCart") || "[]");
-if (savedCart.length) {
-  cart.push(...savedCart);
-}
-
-const cartSummary = document.getElementById("cart-summary");
-
-cartIcon.addEventListener("click", () => {
-  cartSummary.classList.toggle("hidden");
-});
-
-stampNameInput.setAttribute("maxlength", window.MAX_LENGTH);
-stampNameInput.setAttribute("placeholder", `Max ${window.MAX_LENGTH} characters`);
-document.getElementById("label-name").textContent =
-  `Personalisation (max ${window.MAX_LENGTH} characters):`;
-
-function formatGBP(amount) {
-  return `£${amount.toFixed(2)}`;
-}
-
-function updateLiveTotal() {
-  const qty = parseInt(stampQtyInput.value) || 0;
-  let total = qty * PRICE_PER_STAMP;
-
-  if (qty >= DISCOUNT_THRESHOLD) {
-    total *= 1 - DISCOUNT_RATE;
-    discountNote.classList.remove("hidden");
-  } else {
-    discountNote.classList.add("hidden");
-  }
-
-  liveTotal.textContent = `= ${formatGBP(total)}`;
-}
-
-function animateCartIcon() {
-  cartIcon.classList.add("animate");
-  setTimeout(() => cartIcon.classList.remove("animate"), 400);
-}
-
-function calculateTotal() {
-  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-  let totalPrice = totalQty * PRICE_PER_STAMP;
-
-  const discountApplied = totalQty >= DISCOUNT_THRESHOLD;
-  if (discountApplied) {
-    totalPrice *= 1 - DISCOUNT_RATE;
-  }
-
-  return { totalPrice, discountApplied, totalQty };
-}
-
+/**
+ * Updates the display of the cart icon with the total quantity of items.
+ * This function should be called whenever the cart content changes.
+ */
 function renderCart() {
-  if (cartItemsList) {
-    cartItemsList.innerHTML = "";
+  const cartIcon = document.getElementById("cart-icon");
+  // Check for the cart-icon and its children for cart-count and cart-total
+  const cartCountSpan = document.getElementById("cart-count");
+  const cartTotalSpan = document.getElementById("cart-total");
 
-    if (cart.length === 0) {
-      cartItemsList.innerHTML = "<li>Your cart is empty.</li>";
-    } else {
-      cart.forEach((item, i) => {
-        const li = document.createElement("li");
-        li.textContent = `${item.name} × ${item.quantity}`;
-
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "✕";
-        removeBtn.title = "Remove item";
-        removeBtn.style.marginLeft = "1rem";
-        removeBtn.style.cursor = "pointer";
-        removeBtn.style.border = "none";
-        removeBtn.style.background = "transparent";
-        removeBtn.style.color = "var(--rosso)";
-        removeBtn.style.fontWeight = "bold";
-        removeBtn.addEventListener("click", () => {
-          cart.splice(i, 1);
-          renderCart();
-        });
-
-        li.appendChild(removeBtn);
-        cartItemsList.appendChild(li);
-      });
-    }
-  }
-
-  const { totalPrice, discountApplied, totalQty } = calculateTotal();
-  cartCount.textContent = totalQty;
-  cartTotalEl.textContent = formatGBP(totalPrice);
-
-  // Always show discount note
-  if (discountApplied) {
-    discountNote.textContent = `10% discount applied!`;
-  } else {
-    discountNote.textContent = "10% discount when buying 5 or more!";
-  }
-  discountNote.classList.remove("hidden");
-
-  // Desktop: dropdown summary
-  const cartSummary = document.getElementById("cart-summary");
-  if (cartSummary) {
-    if (cart.length === 0) {
-      cartSummary.innerHTML = "<p>Your cart is empty.</p>";
-    } else {
-      cartSummary.innerHTML = "<ul></ul>";
-      const summaryList = cartSummary.querySelector("ul");
-      cart.forEach((item, i) => {
-        const li = document.createElement("li");
-        li.textContent = `${item.name} × ${item.quantity}`;
-
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "✕";
-        removeBtn.title = "Remove item";
-        removeBtn.style.marginLeft = "1rem";
-        removeBtn.style.cursor = "pointer";
-        removeBtn.style.border = "none";
-        removeBtn.style.background = "transparent";
-        removeBtn.style.color = "var(--rosso)";
-        removeBtn.style.fontWeight = "bold";
-        removeBtn.addEventListener("click", () => {
-          cart.splice(i, 1);
-          renderCart();
-        });
-
-        li.appendChild(removeBtn);
-        summaryList.appendChild(li);
-      });
-    }
-  }
-
-  // Mobile: inline summary
-  const cartSummaryMobile = document.getElementById("cart-summary-mobile");
-  if (cartSummaryMobile) {
-    if (cart.length === 0) {
-      cartSummaryMobile.innerHTML = "";
-    } else {
-      cartSummaryMobile.innerHTML = "<h3>Order Summary:</h3><ul></ul>";
-      const mobileSummaryList = cartSummaryMobile.querySelector("ul");
-      cart.forEach((item, i) => {
-        const li = document.createElement("li");
-        li.textContent = `${item.name} × ${item.quantity}`;
-
-        const removeBtn = document.createElement("button");
-        removeBtn.textContent = "✕";
-        removeBtn.title = "Remove item";
-        removeBtn.style.marginLeft = "1rem";
-        removeBtn.style.cursor = "pointer";
-        removeBtn.style.border = "none";
-        removeBtn.style.background = "transparent";
-        removeBtn.style.color = "var(--rosso)";
-        removeBtn.style.fontWeight = "bold";
-        removeBtn.addEventListener("click", () => {
-          cart.splice(i, 1);
-          renderCart();
-        });
-
-        li.appendChild(removeBtn);
-        mobileSummaryList.appendChild(li);
-      });
-    }
-  }
-
-  // Save cart to localStorage
-  localStorage.setItem("ravioliCart", JSON.stringify(cart));
-
-  renderPayPalButtons(totalPrice);
-}
-
-function renderPayPalButtons(totalPrice) {
-  paypalContainer.innerHTML = "";
-
-  if (cart.length === 0) return;
-
-  paypal.Buttons({
-    style: {
-      shape: "rect",
-      color: "blue",
-      layout: "vertical",
-      label: "pay",
-    },
-    createOrder: (data, actions) => {
-      return fetch(`https://ravioli-stamp.vercel.app/api/create-order`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart }),
-      })
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to create order");
-          return res.json();
-        })
-        .then((data) => data.orderID);
-    },
-    onApprove: (data, actions) => {
-      return actions.order.capture().then((details) => {
-        alert(
-          `Thank you for your purchase ${details.payer.name.given_name}!`
-        );
-        cart.length = 0;
-        renderCart();
-      });
-    },
-    onError: (err) => {
-      alert("An error occurred during the transaction. Please try again.");
-      console.error(err);
-    },
-  }).render("#paypal-button-container");
-}
-
-addToCartBtn.addEventListener("click", () => {
-  const name = stampNameInput.value.trim();
-  const qty = parseInt(stampQtyInput.value);
-
-  if (!name || name.length > window.MAX_LENGTH || qty < 1 || qty > 999) {
-    alert(
-      `Please enter a valid name (1–${window.MAX_LENGTH} characters) and quantity (1–999).`
-    );
+  if (!cartIcon || !cartCountSpan || !cartTotalSpan) {
+    console.warn("Cart icon or its detail spans not found. Please ensure elements with ids 'cart-icon', 'cart-count', and 'cart-total' exist.");
     return;
   }
 
-  const existingIndex = cart.findIndex(
-    (item) => item.name.toLowerCase() === name.toLowerCase()
-  );
-  if (existingIndex !== -1) {
-    cart[existingIndex].quantity += qty;
-  } else {
-    cart.push({ name, quantity: qty });
-  }
+  // Calculate the total quantity and total price of items in the cart
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-  animateCartIcon();
-  stampNameInput.value = "";
-  stampQtyInput.value = 1;
-  updateLiveTotal();
-  renderCart();
+  // Update the cart icon's HTML
+  cartCountSpan.textContent = totalQty;
+  cartTotalSpan.textContent = `£${totalPrice.toFixed(2)}`;
+
+  // You can also adjust the main cart icon content if needed
+  if (totalQty > 0) {
+    // This part is already handled by the spans inside cartIcon, no change needed here.
+    // If you only had the emoji, this would be: cartIcon.innerHTML = `🛒 <span>${totalQty}</span>`;
+  } else {
+    // If cart is empty, you might want to reset total and count directly
+    cartCountSpan.textContent = 0;
+    cartTotalSpan.textContent = `£0.00`;
+  }
+}
+
+/**
+ * Adds a visual animation to the cart icon to indicate an item has been added.
+ */
+function animateCartIcon() {
+  const cartIcon = document.getElementById("cart-icon");
+  if (cartIcon) {
+    cartIcon.classList.add("animate-cart"); // Add a class for animation
+    // Remove the animation class after a short delay to allow it to be re-triggered
+    setTimeout(() => {
+      cartIcon.classList.remove("animate-cart");
+    }, 500); // Animation duration
+  }
+}
+
+/**
+ * Saves the current state of the 'cart' array to localStorage.
+ * The cart array is converted to a JSON string before saving.
+ */
+function saveCart() {
+  localStorage.setItem("ravioliCart", JSON.stringify(cart));
+}
+
+// Event listeners for "Buy" buttons to open the product overlay
+buyButtons.forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    // Get the product name from the corresponding product item
+    const productItem = event.target.closest(".product-item");
+    if (productItem) {
+      const productName = productItem.querySelector("h3").textContent;
+      // Use the global STAMP_BASE_PRICE for all products
+      const productPrice = STAMP_BASE_PRICE; 
+
+      selectedProduct = { // Store as an object
+        name: productName,
+        price: productPrice,
+        // Other properties like description, size could be added here if needed
+      };
+      overlay.classList.remove("hidden"); // Show the overlay
+    }
+  });
 });
 
-stampQtyInput.addEventListener("input", updateLiveTotal);
-updateLiveTotal();
-renderCart();
+// Event listener for "Cancel" button in the overlay
+document.getElementById("cancel-overlay").addEventListener("click", () => {
+  overlay.classList.add("hidden"); // Hide the overlay
+  // Clear fields and selection when cancelling
+  document.getElementById("top-line").value = "";
+  document.getElementById("bottom-line").value = "";
+  document.getElementById("dedication").value = "";
+  document.getElementById("overlay-qty").value = "1";
+  document.querySelectorAll(".color-swatch").forEach(btn => btn.classList.remove("selected"));
+  selectedProduct = null; // Clear selected product
+});
+
+// Event listener for "Add Another" button in the overlay
+document.getElementById("add-another").addEventListener("click", () => {
+  if (handleOverlayAdd()) { // If item successfully added to cart
+    overlay.classList.add("hidden"); // Hide the overlay
+  }
+});
+
+// Event listener for "Add & Checkout" button in the overlay
+document.getElementById("add-and-checkout").addEventListener("click", () => {
+  if (handleOverlayAdd()) { // If item successfully added to cart
+    window.location.href = "order.html"; // Redirect to the order page
+  }
+});
+
+/**
+ * Handles the logic for adding an item from the overlay to the cart.
+ * It validates input, constructs the item label, updates the cart array,
+ * saves to localStorage, and updates the UI.
+ * @returns {boolean} True if the item was successfully added, false otherwise.
+ */
+function handleOverlayAdd() {
+  if (!selectedProduct) {
+    showMessageBox("No product selected. Please select a product first.");
+    return false;
+  }
+
+  // Get selected color, defaulting to "Black" if none is selected
+  const color = document.querySelector(".color-swatch.selected")?.dataset.color || "Black";
+  const top = document.getElementById("top-line").value.trim();
+  const bottom = document.getElementById("bottom-line").value.trim();
+  const dedication = document.getElementById("dedication").value.trim();
+  const qty = parseInt(document.getElementById("overlay-qty").value);
+
+  // Validate quantity input
+  if (isNaN(qty) || qty < 1 || qty > 999) {
+    // Use a custom message box instead of alert() for better UX
+    showMessageBox("Please enter a valid quantity (1–999).");
+    return false;
+  }
+
+  // Construct a unique identifier for the item based on all its properties
+  // This ensures that "Square Stamp (Red) - Top: ABC" is treated differently from "Square Stamp (Red)"
+  let itemIdentifier = `${selectedProduct.name}:::${color}:::${top}:::${bottom}:::${dedication}`;
+
+  // Check if the item already exists in the cart based on its unique identifier
+  const existingItem = cart.find(item => item.identifier === itemIdentifier);
+
+  if (existingItem) {
+    // If it exists, just update the quantity
+    existingItem.quantity += qty;
+  } else {
+    // If it's a new item, add it to the cart with all details
+    cart.push({
+      identifier: itemIdentifier, // Unique ID for finding existing items
+      productName: selectedProduct.name,
+      color: color,
+      topLine: top,
+      bottomLine: bottom,
+      dedication: dedication,
+      price: selectedProduct.price, // Use the price from selectedProduct
+      quantity: qty
+    });
+  }
+
+  saveCart(); // Save the updated cart to localStorage
+  renderCart(); // Update the cart display
+  animateCartIcon(); // Animate the cart icon
+
+  // Clear the overlay input fields after adding to cart
+  document.getElementById("top-line").value = "";
+  document.getElementById("bottom-line").value = "";
+  document.getElementById("dedication").value = "";
+  document.getElementById("overlay-qty").value = "1";
+  // Deselect any chosen color swatch
+  document.querySelectorAll(".color-swatch").forEach(btn => btn.classList.remove("selected"));
+  selectedProduct = null; // Clear selected product after adding to cart
+
+  return true;
+}
+
+// Event listeners for color swatches to handle selection
+document.querySelectorAll(".color-swatch").forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Remove 'selected' class from all swatches
+    document.querySelectorAll(".color-swatch").forEach(innerBtn => innerBtn.classList.remove("selected"));
+    // Add 'selected' class to the clicked swatch
+    btn.classList.add("selected");
+  });
+});
+
+/**
+ * Custom message box function to replace `alert()`.
+ * This would ideally create a modal or a temporary message element.
+ * For this example, it simply logs to console and adds a temporary message to the body.
+ * In a real application, you'd implement a proper modal dialog.
+ * @param {string} message The message to display.
+ */
+function showMessageBox(message) {
+  console.warn("Message Box:", message); // Log to console for debugging
+
+  const messageBox = document.createElement("div");
+  messageBox.textContent = message;
+  messageBox.style.cssText = `
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+  `;
+  document.body.appendChild(messageBox);
+
+  // Automatically remove the message box after a few seconds
+  setTimeout(() => {
+    messageBox.remove();
+  }, 3000); // Display for 3 seconds
+}
+
+// Initial render of the cart when the DOM content is fully loaded
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart(); // Call renderCart to display initial cart quantity and total
+});
