@@ -3,18 +3,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   const cartSummaryDiv = document.getElementById("cart-summary");
   const cartSummaryMobileDiv = document.getElementById("cart-summary-mobile");
-  const cartIcon = document.getElementById("cart-icon"); // Get the cart icon in the header
   const cartIconCount = document.getElementById("cart-count");
   const cartIconTotal = document.getElementById("cart-total");
 
   // Retrieve cart from localStorage. Use 'let' because the cart array might be reassigned (e.g., when an item is removed)
   let cart = JSON.parse(localStorage.getItem("ravioliCart")) || [];
-
-  // --- START Removed previous summary visibility toggle logic ---
-  // The summary divs will now be controlled purely by CSS for default visibility
-  // and by JS only to hide them if the cart becomes empty.
-  // The cartIcon click listener to toggle summary visibility has been removed.
-  // --- END Removed previous summary visibility toggle logic ---
 
   /**
    * Saves the current state of the 'cart' array to localStorage.

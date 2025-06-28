@@ -15,6 +15,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  /* Ensure no unexpected tap-highlighting on interactive elements */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -63,7 +65,7 @@ header .subtitle {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 2rem;
+  font-size: 1.5rem;
   text-decoration: none;
   color: var(--color-accent);
 }
@@ -508,10 +510,13 @@ main#order-page {
 #paypal-button-container {
   margin-top: 2rem;
   text-align: center; /* Center PayPal buttons horizontally */
-  width: 350px; /* Width for the button container */
+  max-width: 400px; /* Max width for the button container */
   margin-left: auto; /* Center the container itself */
   margin-right: auto; /* Center the container itself */
   padding: 1rem; /* Add some padding around the buttons */
+  /* Added specific styles for the PayPal iframe/buttons to ensure they are clickable */
+  position: relative; /* Ensure it establishes a stacking context */
+  z-index: 1; /* Give it a z-index to bring it forward if needed */
 }
 
 .hidden {
@@ -672,6 +677,7 @@ footer {
   .promo-overlay {
     top: 80%; /* Adjust position for very small screens */
     padding: 1rem 1.5rem;
+    width: 90%;
   }
   .promo-overlay p {
     font-size: 1.2rem;
