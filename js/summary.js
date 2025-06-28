@@ -156,29 +156,37 @@ document.addEventListener("DOMContentLoaded", () => {
    * Uses event delegation on the cartSummaryDiv.
    */
   function addSummaryEventListeners() {
-    // Ensure event listeners are only added once to the main container
-    // To avoid duplicate listeners on re-renders, remove existing listeners first if any
-    cartSummaryDiv.removeEventListener('click', handleRemoveClick);
-    cartSummaryDiv.removeEventListener('change', handleQuantityChange);
+    // Attach event listeners with delegation for mobile Safari compatibility
+    cartSummaryDiv.addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove-item-btn')) {
+        const identifierToRemove = event.target.dataset.identifier;
+        removeItem(identifierToRemove);
+      }
+    });
 
-    cartSummaryDiv.addEventListener('click', handleRemoveClick);
-    cartSummaryDiv.addEventListener('change', handleQuantityChange);
+    cartSummaryDiv.addEventListener('input', function(event) {
+      if (event.target.classList.contains('quantity-input')) {
+        const identifierToUpdate = event.target.dataset.identifier;
+        const newQuantity = parseInt(event.target.value, 10);
+        updateItemQuantity(identifierToUpdate, newQuantity);
+      }
+    });
   }
 
-  function handleRemoveClick(event) {
-    if (event.target.classList.contains('remove-item-btn')) {
-      const identifierToRemove = event.target.dataset.identifier;
-      removeItem(identifierToRemove);
-    }
-  }
+//   function handleRemoveClick(event) {
+//     if (event.target.classList.contains('remove-item-btn')) {
+//       const identifierToRemove = event.target.dataset.identifier;
+//       removeItem(identifierToRemove);
+//     }
+//   }
 
-  function handleQuantityChange(event) {
-    if (event.target.classList.contains('quantity-input')) {
-      const identifierToUpdate = event.target.dataset.identifier;
-      const newQuantity = parseInt(event.target.value, 10); // Ensure base 10
-      updateItemQuantity(identifierToUpdate, newQuantity);
-    }
-  }
+//   function handleQuantityChange(event) {
+//     if (event.target.classList.contains('quantity-input')) {
+//       const identifierToUpdate = event.target.dataset.identifier;
+//       const newQuantity = parseInt(event.target.value, 10); // Ensure base 10
+//       updateItemQuantity(identifierToUpdate, newQuantity);
+//     }
+//   }
 
 
   /**
