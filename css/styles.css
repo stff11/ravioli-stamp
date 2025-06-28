@@ -430,6 +430,7 @@ main#order-page {
   text-align: center;
   font-size: 0.9rem;
   -moz-appearance: textfield; /* Hide spin buttons for Firefox */
+  appearance: textfield;
 }
 
 /* Hide spin buttons for Chrome, Safari, Edge */
