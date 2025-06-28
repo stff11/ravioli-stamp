@@ -369,6 +369,7 @@ main#order-page {
 
 .cart-table-container {
   overflow-x: auto; /* For responsive tables on small screens */
+  -webkit-overflow-scrolling: touch;
   width: 100%;
   max-width: 900px; /* Max width for the table container */
   margin: 0 auto 1.5rem auto; /* Center table and add bottom margin */
