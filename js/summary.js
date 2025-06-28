@@ -52,6 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
     summaryHtml += `
       <h2 class="order-summary-title">Your Order Summary</h2>
       <div class="cart-list">
+        <div class="cart-header">
+          <div class="item-name">Item</div>
+          <div class="item-color">Color</div>
+          <div class="item-details">Personalisation</div>
+          <div class="item-qty">Qty</div>
+          <div class="item-price">Price</div>
+          <div class="item-total">Total</div>
+          <div class="item-remove">Remove</div>
+        </div>
     `;
 
     cart.forEach(item => {
@@ -142,18 +151,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function addSummaryEventListeners() {
     // Attach event listeners with delegation for mobile Safari compatibility
     cartSummaryDiv.addEventListener('click', function(event) {
-      if (event.target.classList.contains('remove-item-btn')) {
-        const identifierToRemove = event.target.dataset.identifier;
-        removeItem(identifierToRemove);
-      }
+const removeBtn = event.target.closest('.remove-item-btn');
+if (removeBtn) {
+  const identifierToRemove = removeBtn.dataset.identifier;
+  removeItem(identifierToRemove);
+}
     });
 
     cartSummaryDiv.addEventListener('input', function(event) {
-      if (event.target.classList.contains('quantity-input')) {
-        const identifierToUpdate = event.target.dataset.identifier;
-        const newQuantity = parseInt(event.target.value, 10);
-        updateItemQuantity(identifierToUpdate, newQuantity);
-      }
+const qtyInput = event.target.closest('.quantity-input');
+if (qtyInput) {
+  const identifierToUpdate = qtyInput.dataset.identifier;
+  const newQuantity = parseInt(qtyInput.value, 10);
+  updateItemQuantity(identifierToUpdate, newQuantity);
+}
     });
   }
 
