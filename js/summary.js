@@ -148,6 +148,14 @@ function addSummaryEventListeners(container) {
   });
 }
 
+function adjustQuantity(identifier, delta) {
+  const item = cart.find(i => i.identifier === identifier);
+  if (!item) return;
+  item.quantity = Math.max(1, item.quantity + delta);
+  saveCart();
+  renderOrderSummary();
+}
+
 function updateItemQuantity(identifier, newQuantity) {
   const item = cart.find(i => i.identifier === identifier);
   if (!item) return;
