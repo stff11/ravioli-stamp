@@ -154,6 +154,15 @@ function adjustQuantity(identifier, delta) {
   item.quantity = Math.max(1, item.quantity + delta);
   saveCart();
   renderOrderSummary();
+
+  // Briefly focus and blur to reset cursor position on mobile
+  setTimeout(() => {
+    const input = document.querySelector(`.quantity-input[data-identifier="${identifier}"]`);
+    if (input) {
+      input.focus();
+      input.blur();
+    }
+  }, 50);
 }
 
 function updateItemQuantity(identifier, newQuantity) {

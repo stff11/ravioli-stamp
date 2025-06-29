@@ -378,6 +378,7 @@ main#order-page {
 }
 
 .cart-table-container {
+  position: relative;
   overflow-x: auto; /* For responsive tables on small screens */
   -webkit-overflow-scrolling: touch;
   width: 100%;
@@ -387,6 +388,17 @@ main#order-page {
   background: var(--color-card-bg);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.cart-table-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1rem;
+  height: 100%;
+  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+  pointer-events: none;
 }
 
   /* Order summary table improvements */
@@ -478,6 +490,12 @@ main#order-page {
 .qty-controls input {
   width: 3rem;
   text-align: center;
+}
+
+.qty-controls button,
+.quantity-input {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .text-right {
