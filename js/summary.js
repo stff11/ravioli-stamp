@@ -92,22 +92,42 @@ function renderOrderSummary() {
   cartSummaryDiv.innerHTML = summaryHtml;
   cartSummaryMobileDiv.innerHTML = summaryHtml;
 
-  addSummaryEventListeners();
+  addSummaryEventListeners(cartSummaryDiv);
+  addSummaryEventListeners(cartSummaryMobileDiv);
 }
 
-function addSummaryEventListeners() {
-  cartSummaryDiv.addEventListener('click', function (event) {
+function addSummaryEventListeners(container) {
+  console.log("Adding event listeners to container:", container.id);
+
+  container.addEventListener('click', function (event) {
+    console.log("Click event detected:", event.target);
     const removeBtn = event.target.closest('.remove-item-btn');
     if (removeBtn) {
+      console.log("Remove button clicked, identifier:", removeBtn.dataset.identifier);
       removeItem(removeBtn.dataset.identifier);
       return;
     }
-    // Could add plus/minus buttons here if you want to implement later
+
+    const increaseBtn = event.target.closest('.qty-increase');
+    if (increaseBtn) {
+      console.log("Increase button clicked, identifier:", increaseBtn.dataset.identifier);
+      adjustQuantity(increaseBtn.dataset.identifier, 1);
+      return;
+    }
+
+    const decreaseBtn = event.target.closest('.qty-decrease');
+    if (decreaseBtn) {
+      console.log("Decrease button clicked, identifier:", decreaseBtn.dataset.identifier);
+      adjustQuantity(decreaseBtn.dataset.identifier, -1);
+      return;
+    }
   });
 
-  cartSummaryDiv.addEventListener('change', function (event) {
+  container.addEventListener('change', function (event) {
+    console.log("Change event detected:", event.target);
     const input = event.target.closest('.quantity-input');
     if (input) {
+      console.log("Quantity input changed, identifier:", input.dataset.identifier, "value:", input.value);
       updateItemQuantity(input.dataset.identifier, parseInt(input.value, 10));
     }
   });
