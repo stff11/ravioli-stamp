@@ -154,8 +154,25 @@ function removeItem(identifier) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded, starting render...");
   renderOrderSummary();
-  renderPayPalButtons();
+  waitForPayPalSDK().then(() => {
+    renderPayPalButtons();
+  });
 });
+
+function waitForPayPalSDK() {
+  return new Promise((resolve) => {
+    if (window.paypal && window.paypal.Buttons) {
+      return resolve();
+    }
+
+    const interval = setInterval(() => {
+      if (window.paypal && window.paypal.Buttons) {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 100);
+  });
+}
 
 // Render PayPal Buttons
 function renderPayPalButtons() {
