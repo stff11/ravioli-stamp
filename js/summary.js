@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cartSummaryMobileDiv.innerHTML = summaryHtml;
 
     // After updating innerHTML, add event listeners using delegation
-    addSummaryEventListeners();
+    addSummaryEventListeners(); // Re-attach event listeners after innerHTML update
 
     // Update the cart icon in the header (which is also present on order.html)
     updateHeaderCart(totalItems, finalTotal);
@@ -148,9 +148,17 @@ document.addEventListener("DOMContentLoaded", () => {
    * Adds event listeners to dynamically created elements in the summary table.
    * Uses event delegation on the cartSummaryDiv.
    */
-function addSummaryEventListeners() {
-  // Use click for remove
-  cartSummaryDiv.addEventListener('click', function(event) {
+  function addSummaryEventListeners() {
+    // Remove existing listeners to prevent duplicates if renderOrderSummary is called multiple times
+    cartSummaryDiv.removeEventListener('click', handleSummaryClick);
+    cartSummaryDiv.removeEventListener('input', handleSummaryInput); // Use 'input' event for quantity
+
+    // Add new listeners
+    cartSummaryDiv.addEventListener('click', handleSummaryClick);
+    cartSummaryDiv.addEventListener('input', handleSummaryInput); // Use 'input' event for quantity
+  }
+
+  function handleSummaryClick(event) {
     const removeBtn = event.target.closest('.remove-item-btn');
     if (removeBtn) {
       const identifierToRemove = removeBtn.dataset.identifier;
@@ -158,10 +166,9 @@ function addSummaryEventListeners() {
         removeItem(identifierToRemove);
       }
     }
-  });
+  }
 
-  // Use change for quantity (better on iOS)
-  cartSummaryDiv.addEventListener('change', function(event) {
+  function handleSummaryInput(event) { // Changed to handleSummaryInput
     const qtyInput = event.target.closest('.quantity-input');
     if (qtyInput) {
       const identifierToUpdate = qtyInput.dataset.identifier;
@@ -170,24 +177,7 @@ function addSummaryEventListeners() {
         updateItemQuantity(identifierToUpdate, newQuantity);
       }
     }
-  });
-}
-
-//   function handleRemoveClick(event) {
-//     if (event.target.classList.contains('remove-item-btn')) {
-//       const identifierToRemove = event.target.dataset.identifier;
-//       removeItem(identifierToRemove);
-//     }
-//   }
-
-//   function handleQuantityChange(event) {
-//     if (event.target.classList.contains('quantity-input')) {
-//       const identifierToUpdate = event.target.dataset.identifier;
-//       const newQuantity = parseInt(event.target.value, 10); // Ensure base 10
-//       updateItemQuantity(identifierToUpdate, newQuantity);
-//     }
-//   }
-
+  }
 
   /**
    * Removes an item from the cart.
