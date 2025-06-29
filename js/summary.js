@@ -151,36 +151,35 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * Adds event listeners to dynamically created elements in the summary table.
    * Uses event delegation on the cartSummaryDiv.
+   * Simplified version to avoid removeEventListener issues and ensure all cart controls work on mobile (including iOS).
    */
   function addSummaryEventListeners() {
-    // Remove existing listeners to prevent duplicates if renderOrderSummary is called multiple times
-    cartSummaryDiv.removeEventListener('click', handleSummaryClick);
-    cartSummaryDiv.removeEventListener('input', handleSummaryInput); // Use 'input' event for quantity
-
-    // Add new listeners
-    cartSummaryDiv.addEventListener('click', function(event) {
+    cartSummaryDiv.addEventListener('click', function (event) {
       const removeBtn = event.target.closest('.remove-item-btn');
       if (removeBtn) {
-        const identifier = removeBtn.dataset.identifier;
-        removeItem(identifier);
+        removeItem(removeBtn.dataset.identifier);
         return;
       }
 
       const increaseBtn = event.target.closest('.qty-increase');
       if (increaseBtn) {
-        const identifier = increaseBtn.dataset.identifier;
-        adjustQuantity(identifier, 1);
+        adjustQuantity(increaseBtn.dataset.identifier, 1);
         return;
       }
 
       const decreaseBtn = event.target.closest('.qty-decrease');
       if (decreaseBtn) {
-        const identifier = decreaseBtn.dataset.identifier;
-        adjustQuantity(identifier, -1);
+        adjustQuantity(decreaseBtn.dataset.identifier, -1);
         return;
       }
     });
-    cartSummaryDiv.addEventListener('input', handleSummaryInput); // Use 'input' event for quantity
+
+    cartSummaryDiv.addEventListener('change', function (event) {
+      const input = event.target.closest('.quantity-input');
+      if (input) {
+        updateItemQuantity(input.dataset.identifier, parseInt(input.value, 10));
+      }
+    });
   }
 
   function handleSummaryClick(event) {
