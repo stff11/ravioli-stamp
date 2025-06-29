@@ -353,11 +353,21 @@ main#order-page {
   padding: 1rem; /* Add some padding */
 }
 
-.cart-empty-message {
+.empty-cart-message {
   text-align: center;
-  color: #666;
-  font-size: 1.2rem;
-  margin-top: 2rem;
+  padding: 2rem 1rem;
+  font-size: 1.1rem;
+}
+
+.empty-cart-message .cta-button {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--color-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
 .order-summary-title {

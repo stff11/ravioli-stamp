@@ -30,10 +30,21 @@ function renderOrderSummary() {
   }
 
   if (cart.length === 0) {
-    cartSummaryDiv.innerHTML = "<p>Your cart is empty.</p>";
-    cartSummaryMobileDiv.innerHTML = "<p>Your cart is empty.</p>";
-    return;
-  }
+  const emptyMessage = `
+    <div class="empty-cart-message">
+      <p>Your cart is empty.</p>
+      <p><a href="/#products" class="cta-button">Browse products</a> to get started.</p>
+    </div>
+  `;
+  cartSummaryDiv.innerHTML = emptyMessage;
+  cartSummaryMobileDiv.innerHTML = emptyMessage;
+
+  // Also hide PayPal buttons if they exist
+  const paypalContainer = document.getElementById('paypal-button-container');
+  if (paypalContainer) paypalContainer.innerHTML = '';
+
+  return;
+}
 
   const { totalPrice, discountApplied, totalQty } = calculateTotal();
 
