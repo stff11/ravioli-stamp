@@ -594,6 +594,36 @@ footer {
     font-size: 0.9rem;
   }
 
+  /* Order summary table improvements */
+.order-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  table-layout: auto;
+}
+
+.order-summary-table th,
+.order-summary-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.order-summary-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.order-summary-table tbody tr:nth-child(even) {
+  background-color: #fcfcfc;
+}
+
+.order-summary-table td:nth-child(3) {
+  min-width: 200px;
+  word-break: break-word;
+}
+
   .cart-summary-mobile .order-summary-table {
     font-size: 0.85rem; /* Smaller font for mobile table */
   }
