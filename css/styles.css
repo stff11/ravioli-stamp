@@ -619,6 +619,12 @@ footer {
       font-size: 1rem; /* Slightly larger font */
   }
 
+  .quantity-input,
+  .remove-item-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   /* Adjust image size on mobile */
   .product-item {
     flex-direction: column; /* Stack image and info vertically */
