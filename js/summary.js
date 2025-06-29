@@ -1,36 +1,46 @@
 function addSummaryEventListeners() {
+  console.log("✅ addSummaryEventListeners() attached");
+
   cartSummaryDiv.addEventListener('click', function (event) {
-    console.log("Click event detected:", event.target);
+    console.log("CLICK detected on:", event.target);
 
     const removeBtn = event.target.closest('.remove-item-btn');
     if (removeBtn) {
-      console.log("Remove button clicked:", removeBtn.dataset.identifier);
-      removeItem(removeBtn.dataset.identifier);
+      const id = removeBtn.dataset.identifier;
+      console.log("REMOVE BUTTON matched:", removeBtn, "ID:", id);
+      if (id) {
+        removeItem(id);
+      } else {
+        console.warn("❗ No identifier found on remove button");
+      }
       return;
     }
 
     const increaseBtn = event.target.closest('.qty-increase');
     if (increaseBtn) {
-      console.log("Increase button clicked:", increaseBtn.dataset.identifier);
-      adjustQuantity(increaseBtn.dataset.identifier, 1);
+      const id = increaseBtn.dataset.identifier;
+      console.log("INCREASE BUTTON matched:", increaseBtn, "ID:", id);
+      if (id) adjustQuantity(id, 1);
       return;
     }
 
     const decreaseBtn = event.target.closest('.qty-decrease');
     if (decreaseBtn) {
-      console.log("Decrease button clicked:", decreaseBtn.dataset.identifier);
-      adjustQuantity(decreaseBtn.dataset.identifier, -1);
+      const id = decreaseBtn.dataset.identifier;
+      console.log("DECREASE BUTTON matched:", decreaseBtn, "ID:", id);
+      if (id) adjustQuantity(id, -1);
       return;
     }
   });
 
   cartSummaryDiv.addEventListener('change', function (event) {
-    console.log("Change event detected:", event.target);
+    console.log("CHANGE detected on:", event.target);
 
     const input = event.target.closest('.quantity-input');
     if (input) {
-      console.log("Quantity input changed:", input.dataset.identifier, input.value);
-      updateItemQuantity(input.dataset.identifier, parseInt(input.value, 10));
+      const id = input.dataset.identifier;
+      console.log("Quantity input changed:", id, input.value);
+      if (id) updateItemQuantity(id, parseInt(input.value, 10));
     }
   });
 }
