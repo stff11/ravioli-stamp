@@ -87,12 +87,16 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="item-color">${item.color || 'N/A'}</div>
           <div class="item-details">${personalizationText}</div>
           <div class="item-qty">
-            <input type="number"
-                   min="1"
-                   max="999"
-                   value="${itemQuantity}"
-                   class="quantity-input"
-                   data-identifier="${item.identifier}">
+            <div class="quantity-controls">
+              <button class="qty-decrease" data-identifier="${item.identifier}">–</button>
+              <input type="number"
+                     min="1"
+                     max="999"
+                     value="${itemQuantity}"
+                     class="quantity-input"
+                     data-identifier="${item.identifier}">
+              <button class="qty-increase" data-identifier="${item.identifier}">+</button>
+            </div>
           </div>
           <div class="item-price">£${itemPrice.toFixed(2)}</div>
           <div class="item-total">£${lineTotal.toFixed(2)}</div>
@@ -154,7 +158,28 @@ document.addEventListener("DOMContentLoaded", () => {
     cartSummaryDiv.removeEventListener('input', handleSummaryInput); // Use 'input' event for quantity
 
     // Add new listeners
-    cartSummaryDiv.addEventListener('click', handleSummaryClick);
+    cartSummaryDiv.addEventListener('click', function(event) {
+      const removeBtn = event.target.closest('.remove-item-btn');
+      if (removeBtn) {
+        const identifier = removeBtn.dataset.identifier;
+        removeItem(identifier);
+        return;
+      }
+
+      const increaseBtn = event.target.closest('.qty-increase');
+      if (increaseBtn) {
+        const identifier = increaseBtn.dataset.identifier;
+        adjustQuantity(identifier, 1);
+        return;
+      }
+
+      const decreaseBtn = event.target.closest('.qty-decrease');
+      if (decreaseBtn) {
+        const identifier = decreaseBtn.dataset.identifier;
+        adjustQuantity(identifier, -1);
+        return;
+      }
+    });
     cartSummaryDiv.addEventListener('input', handleSummaryInput); // Use 'input' event for quantity
   }
 
@@ -209,6 +234,49 @@ document.addEventListener("DOMContentLoaded", () => {
       saveCart();
       renderOrderSummary(); // Re-render the summary after quantity update
     }
+  }
+
+  function adjustQuantity(identifier, change) {
+    const item = cart.find(i => i.identifier === identifier);
+    if (!item) return;
+
+    const newQty = item.quantity + change;
+    if (newQty >= 1 && newQty <= 999) {
+      item.quantity = newQty;
+      saveCart();
+      updateItemRow(identifier, item);
+      updateHeaderCart(cart.reduce((a, b) => a + b.quantity, 0), calculateFinalTotal());
+    }
+  }
+
+  function updateItemRow(identifier, item) {
+    const row = document.querySelector(`[data-identifier="${identifier}"]`);
+    if (!row) return;
+
+    const input = row.querySelector('.quantity-input');
+    const totalEl = row.querySelector('.item-total');
+    const lineTotal = item.price * item.quantity;
+
+    if (input) input.value = item.quantity;
+    if (totalEl) totalEl.textContent = `£${lineTotal.toFixed(2)}`;
+
+    // Also update subtotal/final total section
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const discountThreshold = 5;
+    const discountRate = 0.10;
+    const finalTotal = cart.length >= discountThreshold ? subtotal * (1 - discountRate) : subtotal;
+
+    const subtotalEl = document.querySelector(".summary-subtotal");
+    const finalTotalEl = document.querySelector(".summary-final-total");
+    if (subtotalEl) subtotalEl.textContent = `Subtotal: £${subtotal.toFixed(2)}`;
+    if (finalTotalEl) finalTotalEl.textContent = `Total: £${finalTotal.toFixed(2)}`;
+  }
+
+  function calculateFinalTotal() {
+    const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const discountThreshold = 5;
+    const discountRate = 0.10;
+    return cart.length >= discountThreshold ? subtotal * (1 - discountRate) : subtotal;
   }
 
   /**
