@@ -154,4 +154,51 @@ function removeItem(identifier) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded, starting render...");
   renderOrderSummary();
+  renderPayPalButtons();
 });
+
+// Render PayPal Buttons
+function renderPayPalButtons() {
+  const paypalContainer = document.getElementById('paypal-button-container');
+  if (!paypalContainer || cart.length === 0) return;
+
+  paypalContainer.innerHTML = ''; // Clear existing buttons
+
+  paypal.Buttons({
+    style: {
+      shape: 'rect',
+      color: 'blue',
+      layout: 'vertical',
+      label: 'pay',
+    },
+
+    createOrder: function(data, actions) {
+      return fetch('https://ravioli-stamp.vercel.app/api/create-order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cart })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to create order');
+        return res.json();
+      })
+      .then(data => data.orderID);
+    },
+
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(details => {
+        alert(`Transaction completed by ${details.payer.name.given_name}!`);
+        cart = [];
+        saveCart();
+        renderOrderSummary();
+      });
+    },
+
+    onError: function(err) {
+      console.error("PayPal Checkout Error:", err);
+      alert("Something went wrong during the transaction.");
+    }
+  }).render('#paypal-button-container');
+}
