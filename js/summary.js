@@ -162,12 +162,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function waitForPayPalSDK() {
   return new Promise((resolve) => {
     if (window.paypal && window.paypal.Buttons) {
+      console.log("✅ PayPal SDK is ready immediately");
       return resolve();
     }
 
     const interval = setInterval(() => {
       if (window.paypal && window.paypal.Buttons) {
         clearInterval(interval);
+        console.log("✅ PayPal SDK is now ready");
         resolve();
       }
     }, 100);
