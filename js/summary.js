@@ -80,7 +80,11 @@ function renderOrderSummary() {
         <td>${item.color}</td>
         <td>${personalization.join(" | ")}</td>
         <td>
-          <input type="number" min="1" max="999" value="${item.quantity}" class="quantity-input" data-identifier="${item.identifier}">
+          <div class="qty-controls">
+            <button class="qty-decrease" data-identifier="${item.identifier}">−</button>
+            <input type="number" min="1" max="999" value="${item.quantity}" class="quantity-input" data-identifier="${item.identifier}">
+            <button class="qty-increase" data-identifier="${item.identifier}">+</button>
+          </div>
         </td>
         <td>${formatGBP(item.price)}</td>
         <td class="item-total">${formatGBP(lineTotal)}</td>

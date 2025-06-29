@@ -459,6 +459,27 @@ main#order-page {
   flex: 0 0 auto;
 }
 
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.qty-controls button {
+  background: var(--color-accent);
+  border: none;
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.qty-controls input {
+  width: 3rem;
+  text-align: center;
+}
+
 .text-right {
   text-align: right;
 }
