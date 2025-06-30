@@ -98,8 +98,10 @@ function renderOrderSummary() {
   summaryHtml += `
         </tbody>
       </table>
+      <p class="${discountApplied ? 'discount-applied' : 'discount-info'}">
+        ${discountApplied ? '🥳 10% discount applied!' : 'Buy 5 or more for 10% Off'}
+      </p>
       <p class="summary-subtotal">Subtotal: ${formatGBP(totalPrice)}</p>
-      ${discountApplied ? '<p class="discount-note">🥳 10% discount applied!</p>' : 'Buy 5 or more for 10% Off'}
       <p class="summary-final-total">Total: ${formatGBP(totalPrice)}</p>
     </div>
   `;
