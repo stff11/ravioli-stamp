@@ -506,13 +506,13 @@ main#order-page {
   background: none;
   border: none;
   color: var(--rosso); /* Using the rosso variable for the X */
-  font-size: 1.5rem; /* Larger 'X' */
+  font-size: 1.5rem; /* Large 'X' */
   font-weight: bold;
+  min-width: 44px; /* Ensure minimum touch target size */
+  min-height: 44px; /* Ensure minimum touch target size */
   cursor: pointer;
   transition: color 0.2s ease-in-out;
   padding: 0.5rem; /* Increased padding for better touch target */
-  min-width: 44px; /* Ensure minimum touch target size */
-  min-height: 44px; /* Ensure minimum touch target size */
   display: inline-flex; /* To center the X within the button */
   justify-content: center;
   align-items: center;
@@ -667,14 +667,6 @@ footer {
   .table-body-cell {
     display: table-cell; /* Explicitly show all cells */
   }
-  
-  /* Increased touch target for buttons/inputs on mobile */
-  .remove-item-btn {
-      padding: 0.8rem; /* More padding */
-      font-size: 1.8rem; /* Larger 'X' */
-      min-width: 48px; /* Larger minimum touch target */
-      min-height: 48px; /* Larger minimum touch target */
-  }
 
   .quantity-input {
       width: 65px; /* Slightly wider input for better tapping */
@@ -769,9 +761,6 @@ footer {
   .quantity-input {
     width: 45px; /* Smaller input for quantity */
     font-size: 0.8rem;
-  }
-  .remove-item-btn {
-    font-size: 1.2rem; /* Smaller 'X' */
   }
   .summary-subtotal {
     font-size: 1rem;
