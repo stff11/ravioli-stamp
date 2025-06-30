@@ -106,9 +106,6 @@ function renderOrderSummary() {
 
   cartSummaryDiv.innerHTML = summaryHtml;
   cartSummaryMobileDiv.innerHTML = summaryHtml;
-
-  addSummaryEventListeners(cartSummaryDiv);
-  addSummaryEventListeners(cartSummaryMobileDiv);
 }
 
 function addSummaryEventListeners(container) {
@@ -192,6 +189,8 @@ function removeItem(identifier) {
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded, starting render...");
+  addSummaryEventListeners(cartSummaryDiv);
+  addSummaryEventListeners(cartSummaryMobileDiv);
   renderOrderSummary();
   waitForPayPalSDK().then(() => {
     renderPayPalButtons();
