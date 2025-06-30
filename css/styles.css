@@ -431,81 +431,21 @@ main#order-page {
   background-color: #fcfcfc;
 }
 
+/* Center important columns for better alignment */
+.order-summary-table td:nth-child(1),
+.order-summary-table td:nth-child(2),
+.order-summary-table td:nth-child(4),
+.order-summary-table td:nth-child(5),
+.order-summary-table td:nth-child(6),
+.order-summary-table td:nth-child(7) {
+  text-align: center;
+  vertical-align: middle;
+}
+
 .order-summary-table td:nth-child(3) {
   min-width: 200px;
   word-break: break-word;
-}
-
-/* Cart summary new div-based layout */
-.cart-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.cart-item {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center; 
-  gap: 1rem;
-  padding: 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  background: var(--color-card-bg);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    flex-direction: column;
-    align-items: stretch;
-    text-align: left;
-  }
-
-.cart-item > div {
-    justify-content: space-between;
-    padding: 0.25rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 100px;
-  text-align: center;
-}
-
-.cart-item .item-name {
-  flex: 2 0 160px;
-  justify-content: flex-start;
   text-align: left;
-}
-
-.cart-item .item-color {
-  flex: 1 0 80px;
-}
-
-.cart-item .item-qty {
-  flex: 1 0 100px;
-}
-
-.cart-item .item-price,
-.cart-item .item-total {
-  flex: 0 0 70px;
-}
-
-.cart-item .item-remove {
-  flex: 0 0 44px;
-  justify-content: center;
-}
-
-.cart-item .item-name {
-  font-weight: 600;
-  flex-basis: 100%;
-}
-
-.cart-item .item-qty input.quantity-input {
-  width: 60px;
-}
-
-.cart-item .item-remove {
-  text-align: right;
-  flex: 0 0 auto;
 }
 
 .qty-controls {
@@ -712,6 +652,13 @@ footer {
 
   .cart-summary-mobile .order-summary-table {
     font-size: 0.85rem; /* Smaller font for mobile table */
+  }
+
+  /* Tighter mobile layout for order summary table */
+  .order-summary-table td,
+  .order-summary-table th {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.85rem;
   }
 
   /* Ensure all columns are visible on small screens by default */
