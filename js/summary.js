@@ -99,7 +99,7 @@ function renderOrderSummary() {
         </tbody>
       </table>
       <p class="summary-subtotal">Subtotal: ${formatGBP(totalPrice)}</p>
-      ${discountApplied ? '<p class="discount-note">10% discount applied for 5 or more stamps!</p>' : ''}
+      ${discountApplied ? '<p class="discount-note">🥳 10% discount applied!</p>' : 'Buy 5 or more for 10% Off'}
       <p class="summary-final-total">Total: ${formatGBP(totalPrice)}</p>
     </div>
   `;
@@ -148,14 +148,20 @@ function addSummaryEventListeners(container) {
   });
 }
 
+// Adjust qty by clicking +- buttons
 function adjustQuantity(identifier, delta) {
-  const item = cart.find(i => i.identifier === identifier);
-  if (!item) return;
-  item.quantity = Math.max(1, item.quantity + delta);
+  const index = cart.findIndex(i => i.identifier === identifier);
+  if (index === -1) return;
+
+  // Clone the item to avoid mutation bugs
+  const updatedItem = { ...cart[index] };
+  updatedItem.quantity = Math.max(1, updatedItem.quantity + delta);
+  cart[index] = updatedItem;
+
   saveCart();
   renderOrderSummary();
 
-  // Briefly focus and blur to reset cursor position on mobile
+  // Prevent cursor jump on mobile
   setTimeout(() => {
     const input = document.querySelector(`.quantity-input[data-identifier="${identifier}"]`);
     if (input) {
@@ -165,6 +171,7 @@ function adjustQuantity(identifier, delta) {
   }, 50);
 }
 
+// Manually type the input qty
 function updateItemQuantity(identifier, newQuantity) {
   const item = cart.find(i => i.identifier === identifier);
   if (!item) return;
