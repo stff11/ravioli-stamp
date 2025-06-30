@@ -392,6 +392,20 @@ main#order-page {
   scrollbar-color: #999 #f0f0f0; /* Thumb and track */
 }
 
+ /* Scroll hint for iPhones as the scrollbar never shows */
+.cart-table-container::after {
+  content: "← Scroll to see more";
+  position: absolute;
+  bottom: 0.3rem;
+  right: 1rem;
+  background: rgba(255,255,255,0.9);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  color: #666;
+  z-index: 1;
+  border-radius: 4px;
+}
+
 /* Webkit (Chrome, Safari) scrollbar style */
 .cart-table-container::-webkit-scrollbar {
   height: 8px;
