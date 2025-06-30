@@ -379,8 +379,6 @@ main#order-page {
 
 .cart-table-container {
   position: relative;
-  overflow-x: auto; /* For responsive tables on small screens */
-  -webkit-overflow-scrolling: touch;
   width: 100%;
   max-width: 900px; /* Max width for the table container */
   margin: 0 auto 1.5rem auto; /* Center table and add bottom margin */
@@ -388,17 +386,24 @@ main#order-page {
   background: var(--color-card-bg);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: auto; /* For Firefox */
+  scrollbar-color: #999 #f0f0f0; /* Thumb and track */
 }
 
-.cart-table-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1rem;
-  height: 100%;
-  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
-  pointer-events: none;
+/* Webkit (Chrome, Safari) scrollbar style */
+.cart-table-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.cart-table-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.cart-table-container::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 4px;
 }
 
   /* Order summary table improvements */
