@@ -179,8 +179,8 @@ header .subtitle {
 }
 
 .product-image {
-  flex: 0 0 200px; /* fixed width image column */
-  max-width: 200px;
+  flex: 0 0 250px; /* fixed width image column */
+  max-width: 250px;
   overflow: hidden; /* Hide overflow for image scale effect */
   border-radius: 8px;
 }
@@ -223,8 +223,8 @@ header .subtitle {
 }
 
 img.thumb {
-  width: 50px;
-  height: 50px;
+  width: 75px;
+  height: 75px;
   object-fit: cover;
   border-radius: 4px;
   opacity: 0.6;
@@ -778,14 +778,9 @@ footer {
   
   .product-image {
     flex: none; /* Remove flex constraints */
-    width: 80%; /* Take up more width */
-    max-width: 250px; /* Cap at a reasonable size */
+    /* width: 80%; Take up more width */ 
+    max-width: 275px; /* Cap at a reasonable size */
     margin-bottom: 1rem; /* Space below image */
-  }
-
-  .product-image img {
-    width: 100%; /* Ensure image fills its container */
-    height: auto;
   }
 
   .product-info {
