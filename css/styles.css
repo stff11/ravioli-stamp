@@ -189,12 +189,101 @@ header .subtitle {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  display: block; /* Remove extra space below image */
   transition: transform 0.3s ease; /* Smooth scale transition */
 }
 
 .product-item:hover .product-image img {
   transform: scale(1.05); /* Subtle zoom on image hover */
+}
+
+/* Product Image Slider & Thumbnails */
+.product-image-slider {
+  position: relative;
+}
+
+.slider-main {
+  position: relative;
+}
+
+.main-image {
+  width: 100%;
+  display: none;
+  border-radius: 8px;
+}
+
+.main-image.active {
+  display: block;
+}
+
+.slider-thumbs {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+img.thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  opacity: 0.6;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.2s ease, opacity 0.2s ease;
+}
+
+.thumb.active {
+  border-color: var(--color-accent);
+  opacity: 1;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.nav-arrow:hover {
+  background: rgba(0,0,0,0.6);
+}
+
+.nav-arrow.prev {
+  left: 0.5rem;
+}
+
+.nav-arrow.next {
+  right: 0.5rem;
+}
+
+.sash {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  z-index: 5;
+}
+
+.sash.back {
+  display: none;
 }
 
 .product-info {
@@ -761,6 +850,9 @@ footer {
   .quantity-input {
     width: 45px; /* Smaller input for quantity */
     font-size: 0.8rem;
+  }
+  .remove-item-btn {
+    font-size: 1.35rem;
   }
   .summary-subtotal {
     font-size: 1rem;

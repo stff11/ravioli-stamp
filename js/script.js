@@ -226,4 +226,50 @@ function showMessageBox(message) {
 // Initial render of the cart when the DOM content is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
   renderCart(); // Call renderCart to display initial cart quantity and total
+
+
+  document.querySelectorAll('.product-image-slider').forEach(slider => {
+    const mainImages = slider.querySelectorAll('.main-image');
+    const thumbs = slider.querySelectorAll('.thumb');
+    const frontSash = slider.querySelector('.sash.front');
+    const backSash = slider.querySelector('.sash.back');
+    let currentIndex = 0;
+
+    function updateSlider(index) {
+      mainImages.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+      thumbs.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+      });
+      if (frontSash) frontSash.style.display = index === 0 ? 'block' : 'none';
+      if (backSash) backSash.style.display = index === 1 ? 'block' : 'none';
+      currentIndex = index;
+    }
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        updateSlider(i);
+      });
+    });
+
+    const prevBtn = slider.querySelector('.nav-arrow.prev');
+    const nextBtn = slider.querySelector('.nav-arrow.next');
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const newIndex = (currentIndex - 1 + mainImages.length) % mainImages.length;
+        updateSlider(newIndex);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const newIndex = (currentIndex + 1) % mainImages.length;
+        updateSlider(newIndex);
+      });
+    }
+
+    updateSlider(0); // Initialize
+  });
 });
