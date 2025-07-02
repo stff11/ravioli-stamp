@@ -217,6 +217,7 @@
     </section>
     <div id="product-overlay" class="overlay hidden">
       <div class="overlay-content">
+        <button id="close-overlay" class="close-overlay-btn">&times;</button>
         <h2>Personalise Your Stamp</h2>
 
         <label>Choose Colour:</label>
@@ -229,24 +230,60 @@
           <button class="color-swatch" data-color="Wood" style="background:burlywood;"></button>
         </div>
 
-        <label for="top-line">Top Line (optional):</label>
+        <label for="top-line">Top Line (Front):</label>
         <input type="text" id="top-line" maxlength="10" />
 
-        <label for="bottom-line">Bottom Line (optional):</label>
+        <label for="bottom-line">Bottom Line (Front):</label>
         <input type="text" id="bottom-line" maxlength="10" />
 
-        <label for="dedication">Dedication Message (optional):</label>
+        <label for="dedication">Dedication Message (Back):</label>
         <textarea id="dedication" maxlength="25" rows="4"></textarea>
 
         <label for="overlay-qty">Quantity:</label>
         <input type="number" id="overlay-qty" value="1" min="1" max="999" />
 
+        <!-- Stamp preview  -->
+<div id="stamp-previews" class="hidden">
+  <div class="stamp-preview">
+    <h4>Front Preview</h4>
+    <svg viewBox="0 0 300 300" width="200" height="200">
+      <circle cx="150" cy="150" r="140" fill="#222" />
+      <circle cx="150" cy="150" r="60" fill="#000" />
+      <defs>
+        <path id="topCurve" d="M 40,150 A 110,110 0 0,1 260,150" />
+        <path id="bottomCurve" d="M 260,150 A 110,110 0 0,1 40,150" />
+      </defs>
+      <text font-size="18" font-family="serif" fill="white">
+        <textPath xlink:href="#topCurve" startOffset="50%" text-anchor="middle" id="svg-top"
+          transform="scale(-1,1) translate(-300,0)">
+          YOUR TEXT
+        </textPath>
+      </text>
+      <text font-size="18" font-family="serif" fill="white">
+        <textPath xlink:href="#bottomCurve" startOffset="50%" text-anchor="middle" id="svg-bottom"
+          transform="scale(-1,1) translate(-300,0)">
+          HERE
+        </textPath>
+      </text>
+    </svg>
+  </div>
+
+  <div class="stamp-preview">
+    <h4>Back Preview</h4>
+    <div class="preview-back">
+      <img src="images/preview-back.jpeg" alt="Back of Stamp">
+      <div class="back-text" id="svg-dedication">Your message here</div>
+    </div>
+  </div>
+</div>
+
         <div class="overlay-buttons">
+          <button id="toggle-preview">Show Preview</button>
+          <button id="add-another">Add & Continue</button>
           <button id="add-and-checkout">Add & Checkout</button>
-          <button id="add-another">Add Another</button>
-          <button id="cancel-overlay">Cancel</button>
         </div>
       </div>
+
     </div>
   </main>
 

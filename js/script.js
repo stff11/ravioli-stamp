@@ -88,7 +88,7 @@ buyButtons.forEach((btn) => {
 });
 
 // Event listener for "Cancel" button in the overlay
-document.getElementById("cancel-overlay").addEventListener("click", () => {
+document.getElementById("close-overlay").addEventListener("click", () => {
   overlay.classList.add("hidden"); // Hide the overlay
   // Clear fields and selection when cancelling
   document.getElementById("top-line").value = "";
@@ -272,4 +272,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateSlider(0); // Initialize
   });
+
+  // Change the text in the preview
+const svgTop = document.getElementById("svg-top");
+const svgBottom = document.getElementById("svg-bottom");
+const svgDedication = document.getElementById("svg-dedication");
+
+document.getElementById("top-line").addEventListener("input", e => {
+  svgTop.textContent = e.target.value.toUpperCase() || "YOUR TEXT";
+});
+document.getElementById("bottom-line").addEventListener("input", e => {
+  svgBottom.textContent = e.target.value.toUpperCase() || "HERE";
+});
+document.getElementById("dedication").addEventListener("input", e => {
+  svgDedication.textContent = e.target.value || "Your message here";
+});
+
+document.getElementById("toggle-preview").addEventListener("click", () => {
+  const previews = document.getElementById("stamp-previews");
+  previews.classList.toggle("hidden");
+  const btn = document.getElementById("toggle-preview");
+  btn.textContent = previews.classList.contains("hidden")
+    ? "Show Preview"
+    : "Hide Preview";
+});
 });

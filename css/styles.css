@@ -29,6 +29,11 @@ body {
   flex-direction: column; /* For sticky footer layout */
 }
 
+/* Prevent background scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
 a {
   text-decoration: none;
 }
@@ -352,13 +357,15 @@ img.thumb {
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Allow content to scroll if it overflows */
+  overflow: auto;          /* Enable overlay to scroll */
   z-index: 9999;
 }
 
 #product-overlay.hidden {
   display: none;
 }
+
 
 .overlay-content {
   background: white;
@@ -367,6 +374,22 @@ img.thumb {
   max-width: 500px;
   width: 90%;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: auto; /* Enables both vertical and horizontal scrolling */
+}
+
+/* Overlay close (X) button */
+.close-overlay-btn {
+  position: absolute;
+  top: 0.1rem;
+  right: 1rem;
+  font-size: 2.5rem;
+  background: none;
+  border: none;
+  color: var(--rosso);
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .overlay-content h2 {
@@ -431,6 +454,40 @@ img.thumb {
 
 .overlay-buttons button:hover {
   background: var(--color-accent-dark);
+}
+
+#stamp-previews {
+  margin: 1rem 0;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#stamp-previews.hidden {
+  display: none;
+}
+.stamp-preview {
+  text-align: center;
+}
+.preview-back {
+  position: relative;
+  display: inline-block;
+}
+.preview-back img {
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.back-text {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  white-space: pre-line;
+  font-family: serif;
+  font-size: 14px;
+  color: white;
+  text-shadow: 1px 1px 2px black;
 }
 
 /* Order page */
@@ -593,15 +650,15 @@ main#order-page {
 
 .remove-item-btn {
   background: none;
-  border: none;
+  border: 1px solid var(--rosso);
+  border-radius: 5px;
   color: var(--rosso); /* Using the rosso variable for the X */
   font-size: 1.5rem; /* Large 'X' */
   font-weight: bold;
-  min-width: 44px; /* Ensure minimum touch target size */
-  min-height: 44px; /* Ensure minimum touch target size */
+  min-width: 30px; /* Ensure minimum touch target size */
+  min-height: 30px; /* Ensure minimum touch target size */
   cursor: pointer;
   transition: color 0.2s ease-in-out;
-  padding: 0.5rem; /* Increased padding for better touch target */
   display: inline-flex; /* To center the X within the button */
   justify-content: center;
   align-items: center;
