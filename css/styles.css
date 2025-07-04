@@ -902,7 +902,7 @@ footer {
   .promo-overlay {
     top: 80%; /* Adjust position for very small screens */
     padding: 1rem 1.5rem;
-    width: 90%;
+    width: 80%;
   }
   .promo-overlay p {
     font-size: 1.2rem;
