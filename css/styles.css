@@ -75,6 +75,17 @@ header .subtitle {
   color: var(--color-accent);
 }
 
+.language-switcher {
+  position: absolute;
+  right: 5rem;
+  top: 50%;
+  transform: translateY(-50%);
+} 
+.language-switcher .selected {
+  background-color: var(--color-accent);
+  padding: 0.5rem;
+}
+
 #cart-icon {
   position: absolute;
   right: 1rem;
@@ -778,6 +789,13 @@ footer {
 }
 
 @media (max-width: 767px) {
+  .language-switcher {
+    position: static;
+    transform: none;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+
   .cart-summary {
     display: none !important; /* Hide desktop summary on small screens */
   }
