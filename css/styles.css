@@ -77,9 +77,10 @@ header .subtitle {
 
 .language-switcher {
   position: absolute;
-  right: 5rem;
+  right: 18vw;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 2rem;
 } 
 .language-switcher .selected {
   color: var(--color-accent);
@@ -784,7 +785,7 @@ footer {
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 800px) {
   .language-switcher {
     position: static;
     transform: none;
