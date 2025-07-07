@@ -127,7 +127,7 @@ document.getElementById("add-another").addEventListener("click", () => {
 // Event listener for "Add & Checkout" button in the overlay
 document.getElementById("add-and-checkout").addEventListener("click", () => {
   if (handleOverlayAdd()) { // If item successfully added to cart
-    window.location.href = "../order.html"; // Redirect to the order page
+    window.location.href = `/${LANG}/order.html`; // Language-aware redirect
   }
 });
 
