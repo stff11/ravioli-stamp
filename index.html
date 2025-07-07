@@ -40,7 +40,9 @@
         if (country === 'IT') lang = 'it';
         else if (country === 'PL') lang = 'pl';
 
+        // Set persistent language and location cookies
         document.cookie = `langPref=${lang}; path=/; max-age=31536000`;
+        document.cookie = `location=${country}; path=/; max-age=31536000`;
         if (!currentPath.includes(`/${lang}/`)) {
           window.location.href = `/${lang}/index.html`;
         }
@@ -56,5 +58,16 @@
   </head>
   <body>
     <p>If you're not redirected automatically, <a href="/en/index.html">click here</a>.</p>
+    <script>
+      // Attach click event listeners to all language switcher links
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".language-switcher a").forEach(link => {
+          link.addEventListener("click", function (e) {
+            const lang = link.getAttribute("href").split("/")[1]; // get 'en', 'it', or 'pl'
+            document.cookie = `langPref=${lang}; path=/; max-age=31536000`;
+          });
+        });
+      });
+    </script>
   </body>
 </html>

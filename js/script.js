@@ -127,7 +127,12 @@ document.getElementById("add-another").addEventListener("click", () => {
 // Event listener for "Add & Checkout" button in the overlay
 document.getElementById("add-and-checkout").addEventListener("click", () => {
   if (handleOverlayAdd()) { // If item successfully added to cart
-    window.location.href = `/${LANG}/order.html`; // Language-aware redirect
+    const LOCATION = document.cookie.match(/(?:^|;\s*)location=(\w+)/)?.[1] || 'GB';
+    let destinationLang = 'en';
+    if (LOCATION === 'IT') destinationLang = 'it';
+    else if (LOCATION === 'PL') destinationLang = 'pl';
+
+    window.location.href = `/${destinationLang}/order.html`;
   }
 });
 
