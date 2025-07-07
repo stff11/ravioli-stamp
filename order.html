@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pasta fresca</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+
+</head>
+<body>
+  <header class="page-header">
+    <div class="header-row">
+      <a id="home-icon" href="#" class="home-icon" title="Back to home">🏠</a>
+      <h1 id="order-title"></h1>
+    </div>
+    <div id="cart-summary" class="cart-summary"></div>
+  </header>
+
+  <main id="order-page">
+    <div id="paypal-button-container"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pasta Fresca</p>
+  </footer>
+
+  <!-- PayPal SDK (sandbox or live) -->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AXQzIGyz23cfeszkkWeUE71QpocU2PIjoI-5yff9df3GAFxM57Bmtq2vELp5tL7zSeEuK96s2iRhjB5d&currency=GBP"
+    defer>
+  </script>
+
+  <script src="./js/summary.js" defer></script>
+</body>
+</html>

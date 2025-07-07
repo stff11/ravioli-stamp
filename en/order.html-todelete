@@ -14,7 +14,6 @@
       <h1>Your Order</h1>
     </div>
     <div id="cart-summary" class="cart-summary"></div>
-    <div id="cart-summary-mobile" class="cart-summary-mobile hidden"></div>
   </header>
 
   <table id="table-headers" class="hidden">

@@ -11,6 +11,8 @@ const TEXT = {
     discountApplied: "🥳 10% discount applied!",
     thankYou: name => `Thank you for your order ${name}!`,
     error: "Something went wrong during the transaction.",
+    tableHeaders: ["Product", "Color", "Personalisation", "Qty", "Price", "Total", "Remove"],
+    orderTitle: "Your Order",
   },
   it: {
     emptyCart: "Il tuo carrello è vuoto.",
@@ -22,6 +24,8 @@ const TEXT = {
     discountApplied: "🥳 Sconto del 10% applicato!",
     thankYou: name => `Grazie per il tuo ordine, ${name}!`,
     error: "Si è verificato un errore durante la transazione.",
+    tableHeaders: ["Prodotto", "Colore", "Personalizzazione", "Qtà", "Prezzo", "Totale", "Rimuovi"],
+    orderTitle: "Il Tuo Ordine",
   },
   pl: {
     emptyCart: "Twój koszyk jest pusty.",
@@ -33,11 +37,12 @@ const TEXT = {
     discountApplied: "🥳 Zastosowano zniżkę 10%!",
     thankYou: name => `Dziękujemy za zamówienie, ${name}!`,
     error: "Coś poszło nie tak podczas transakcji.",
+    tableHeaders: ["Produkt", "Kolor", "Personalizacja", "Ilość", "Cena", "Razem", "Usuń"],
+    orderTitle: "Twoje Zamówienie",
   }
 };
 
 const cartSummaryDiv = document.getElementById("cart-summary");
-const cartSummaryMobileDiv = document.getElementById("cart-summary-mobile");
 
 let cart = JSON.parse(localStorage.getItem("ravioliCart") || "[]");
 
@@ -62,7 +67,7 @@ function calculateTotal() {
 }
 
 function renderOrderSummary() {
-  if (!cartSummaryDiv || !cartSummaryMobileDiv) {
+  if (!cartSummaryDiv) {
     console.error("Cart summary elements not found on order.html.");
     return;
   }
@@ -75,7 +80,6 @@ function renderOrderSummary() {
     </div>
   `;
   cartSummaryDiv.innerHTML = emptyMessage;
-  cartSummaryMobileDiv.innerHTML = emptyMessage;
 
   // Also hide PayPal buttons if they exist
   const paypalContainer = document.getElementById('paypal-button-container');
@@ -86,12 +90,13 @@ function renderOrderSummary() {
 
   const { totalPrice, discountApplied, totalQty } = calculateTotal();
 
-  const tableHeaders = document.querySelector('#table-headers thead');
   let summaryHtml = `
     <h2>${TEXT[LANG].yourOrder}</h2>
     <div class="cart-table-container">
       <table class="order-summary-table">
-        ${tableHeaders ? tableHeaders.outerHTML : ''}
+        <thead><tr>
+          ${TEXT[LANG].tableHeaders.map(h => `<th>${h}</th>`).join('')}
+        </tr></thead>
         <tbody>
   `;
 
@@ -136,7 +141,6 @@ function renderOrderSummary() {
   `;
 
   cartSummaryDiv.innerHTML = summaryHtml;
-  cartSummaryMobileDiv.innerHTML = summaryHtml;
 }
 
 function addSummaryEventListeners(container) {
@@ -221,8 +225,12 @@ function removeItem(identifier) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded, starting render...");
   addSummaryEventListeners(cartSummaryDiv);
-  addSummaryEventListeners(cartSummaryMobileDiv);
   renderOrderSummary();
+  const h1Title = document.getElementById("order-title");
+  if (h1Title) h1Title.textContent = TEXT[LANG].orderTitle;
+  // Dynamically update home icon href based on language
+  const homeIcon = document.getElementById("home-icon");
+  if (homeIcon) homeIcon.href = `/${LANG}/index.html`;
   waitForPayPalSDK().then(() => {
     renderPayPalButtons();
   });

@@ -14,22 +14,7 @@
       <h1>Twoje Zamówienie</h1>
     </div>
     <div id="cart-summary" class="cart-summary"></div>
-    <div id="cart-summary-mobile" class="cart-summary-mobile hidden"></div>
   </header>
-
-  <table id="table-headers" class="hidden">
-    <thead>
-      <tr>
-        <th>Produkt</th>
-        <th>Kolor</th>
-        <th>Personalizacja</th>
-        <th>Ilość</th>
-        <th>Cena</th>
-        <th>Suma</th>
-        <th>Usuń</th>
-      </tr>
-    </thead>
-  </table>
 
   <main id="order-page">
     <div id="paypal-button-container"></div>
