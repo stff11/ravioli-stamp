@@ -1,3 +1,41 @@
+const LANG = document.cookie.match(/(?:^|;\s*)langPref=(\w+)/)?.[1] || 'en';
+
+const TEXT = {
+  en: {
+    emptyCart: "Your cart is empty.",
+    browse: "Browse products",
+    yourOrder: "Your Order Summary",
+    subtotal: "Subtotal",
+    total: "Total",
+    discountInfo: "Buy 5 or more for 10% Off",
+    discountApplied: "🥳 10% discount applied!",
+    thankYou: name => `Thank you for your order ${name}!`,
+    error: "Something went wrong during the transaction.",
+  },
+  it: {
+    emptyCart: "Il tuo carrello è vuoto.",
+    browse: "Scopri i prodotti",
+    yourOrder: "Riepilogo Ordine",
+    subtotal: "Subtotale",
+    total: "Totale",
+    discountInfo: "Acquista 5 o più per uno sconto del 10%",
+    discountApplied: "🥳 Sconto del 10% applicato!",
+    thankYou: name => `Grazie per il tuo ordine, ${name}!`,
+    error: "Si è verificato un errore durante la transazione.",
+  },
+  pl: {
+    emptyCart: "Twój koszyk jest pusty.",
+    browse: "Zobacz produkty",
+    yourOrder: "Podsumowanie zamówienia",
+    subtotal: "Suma częściowa",
+    total: "Razem",
+    discountInfo: "Kup 5 lub więcej i otrzymaj 10% zniżki",
+    discountApplied: "🥳 Zastosowano zniżkę 10%!",
+    thankYou: name => `Dziękujemy za zamówienie, ${name}!`,
+    error: "Coś poszło nie tak podczas transakcji.",
+  }
+};
+
 const cartSummaryDiv = document.getElementById("cart-summary");
 const cartSummaryMobileDiv = document.getElementById("cart-summary-mobile");
 
@@ -32,8 +70,8 @@ function renderOrderSummary() {
   if (cart.length === 0) {
   const emptyMessage = `
     <div class="empty-cart-message">
-      <p>Your cart is empty.</p>
-      <p><a href="/#products" class="cta-button">Browse products</a> to get started.</p>
+      <p>${TEXT[LANG].emptyCart}</p>
+      <p><a href="/#products" class="cta-button">${TEXT[LANG].browse}</a></p>
     </div>
   `;
   cartSummaryDiv.innerHTML = emptyMessage;
@@ -48,21 +86,12 @@ function renderOrderSummary() {
 
   const { totalPrice, discountApplied, totalQty } = calculateTotal();
 
+  const tableHeaders = document.querySelector('#table-headers thead');
   let summaryHtml = `
-    <h2>Your Order Summary</h2>
+    <h2>${TEXT[LANG].yourOrder}</h2>
     <div class="cart-table-container">
       <table class="order-summary-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Color</th>
-            <th>Personalisation</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
+        ${tableHeaders ? tableHeaders.outerHTML : ''}
         <tbody>
   `;
 
@@ -99,10 +128,10 @@ function renderOrderSummary() {
         </tbody>
       </table>
       <p class="${discountApplied ? 'discount-applied' : 'discount-info'}">
-        ${discountApplied ? '🥳 10% discount applied!' : 'Buy 5 or more for 10% Off'}
+        ${discountApplied ? TEXT[LANG].discountApplied : TEXT[LANG].discountInfo}
       </p>
-      <p class="summary-subtotal">Subtotal: ${formatGBP(totalPrice)}</p>
-      <p class="summary-final-total">Total: ${formatGBP(totalPrice)}</p>
+      <p class="summary-subtotal">${TEXT[LANG].subtotal}: ${formatGBP(totalPrice)}</p>
+      <p class="summary-final-total">${TEXT[LANG].total}: ${formatGBP(totalPrice)}</p>
     </div>
   `;
 
@@ -248,7 +277,7 @@ function renderPayPalButtons() {
 
     onApprove: function(data, actions) {
       return actions.order.capture().then(details => {
-        alert(`Transaction completed by ${details.payer.name.given_name}!`);
+        alert(TEXT[LANG].thankYou(details.payer.name.given_name));
         cart = [];
         saveCart();
         renderOrderSummary();
@@ -257,7 +286,7 @@ function renderPayPalButtons() {
 
     onError: function(err) {
       console.error("PayPal Checkout Error:", err);
-      alert("Something went wrong during the transaction.");
+      alert(TEXT[LANG].error);
     }
   }).render('#paypal-button-container');
 }

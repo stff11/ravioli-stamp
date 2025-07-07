@@ -25,10 +25,36 @@
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="380">
   <meta property="og:image:height" content="200">
-    <meta http-equiv="refresh" content="0;url=/en/index.html" />
     <title>Redirecting...</title>
+    <script>
+(function () {
+  const existingLang = document.cookie.match(/(?:^|;\s*)langPref=(\w+)/)?.[1];
+  const currentPath = window.location.pathname;
+
+  if (!existingLang && (currentPath === '/' || currentPath.endsWith('/index.html'))) {
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        const country = data.country;
+        let lang = 'en';
+        if (country === 'IT') lang = 'it';
+        else if (country === 'PL') lang = 'pl';
+
+        document.cookie = `langPref=${lang}; path=/; max-age=31536000`;
+        if (!currentPath.includes(`/${lang}/`)) {
+          window.location.href = `/${lang}/index.html`;
+        }
+      })
+      .catch(() => {
+        window.location.href = '/en/index.html';
+      });
+  } else if (existingLang && !currentPath.includes(`/${existingLang}/`)) {
+    window.location.href = `/${existingLang}/index.html`;
+  }
+})();
+</script>
   </head>
   <body>
-    <p>If you're not redirected, <a href="/en/index.html">click here</a>.</p>
+    <p>If you're not redirected automatically, <a href="/en/index.html">click here</a>.</p>
   </body>
 </html>

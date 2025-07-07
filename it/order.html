@@ -1,37 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Order Your Ravioli Stamp</title>
+  <title>Pasta fresca - Pagina Ordine</title>
   <link rel="stylesheet" href="css/styles.css" />
 
-  <!-- Declare MAX_LENGTH as a global JS constant -->
-  <script>
-    const MAX_LENGTH = 10;
-    window.MAX_LENGTH = MAX_LENGTH;
-  </script>
 </head>
 <body>
   <header class="page-header">
     <div class="header-row">
       <a href="index.html" class="home-icon" title="Back to home">🏠</a>
-      <h1>Order</h1>
+      <h1>Il Tuo Ordine</h1>
       <div id="cart-icon">
         🛒 <span id="cart-count">0</span> | <span id="cart-total">£0.00</span>    
       </div>
     </div>
-    <p class="subtitle">Handcrafted. Personalised. Perfect for Gifting or Professional Kitchens.</p>
     <div id="cart-summary" class="cart-summary"></div>
     <div id="cart-summary-mobile" class="cart-summary-mobile hidden"></div>
   </header>
+
+  <table id="table-headers" class="hidden">
+    <thead>
+      <tr>
+        <th>Prodotto</th>
+        <th>Colore</th>
+        <th>Personalizzazione</th>
+        <th>Quantità</th>
+        <th>Prezzo</th>
+        <th>Totale</th>
+        <th>Rimuovi</th>
+      </tr>
+    </thead>
+  </table>
 
   <main id="order-page">
     <div id="paypal-button-container"></div>
   </main>
 
   <footer>
-    <p>&copy; 2025 The Ravioli Stamp Co.</p>
+    <p>&copy; 2025 Pasta Fresca</p>
   </footer>
 
   <!-- PayPal SDK (sandbox or live) -->

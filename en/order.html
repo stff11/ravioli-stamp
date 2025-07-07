@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pasta fresca - Order Page</title>
+  <link rel="stylesheet" href="css/styles.css" />
+
+</head>
+<body>
+  <header class="page-header">
+    <div class="header-row">
+      <a href="index.html" class="home-icon" title="Back to home">🏠</a>
+      <h1>Your Order</h1>
+      <div id="cart-icon">
+        🛒 <span id="cart-count">0</span> | <span id="cart-total">£0.00</span>    
+      </div>
+    </div>
+    <div id="cart-summary" class="cart-summary"></div>
+    <div id="cart-summary-mobile" class="cart-summary-mobile hidden"></div>
+  </header>
+
+  <table id="table-headers" class="hidden">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Color</th>
+        <th>Personalisation</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+  </table>
+
+  <main id="order-page">
+    <div id="paypal-button-container"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Pasta Fresca</p>
+  </footer>
+
+  <!-- PayPal SDK (sandbox or live) -->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AcTN9zaEEgqzQvTGEx5kxILndc0RzZVptX7nJGfTvYlITkMGhE_oR3VQmtA2vhCYYevrETlLLm_TZwgn&currency=GBP"
+    defer>
+  </script>
+
+  <script src="js/summary.js" defer></script>
+</body>
+</html>
