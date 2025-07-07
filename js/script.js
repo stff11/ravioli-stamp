@@ -5,7 +5,25 @@ let selectedProduct = null; // Will store the full product object, not just its 
 
 // Using a single constant price for all stamps, assuming it's defined elsewhere (e.g., script.js)
 // If this price needs to be fetched dynamically or vary per product, this logic would need adjustment.
-const STAMP_BASE_PRICE = 14.99; 
+const STAMP_BASE_PRICE = 14.99;
+
+// Language detection and translations
+const LANG = document.cookie.match(/(?:^|;\s*)langPref=(\w+)/)?.[1] || 'en';
+
+const TEXT = {
+  en: {
+    pleaseSelect: "No product selected. Please select a product first.",
+    invalidQty: "Please enter a valid quantity (1–999)."
+  },
+  it: {
+    pleaseSelect: "Nessun prodotto selezionato. Seleziona prima un prodotto.",
+    invalidQty: "Inserisci una quantità valida (1–999)."
+  },
+  pl: {
+    pleaseSelect: "Nie wybrano produktu. Najpierw wybierz produkt.",
+    invalidQty: "Wprowadź poprawną ilość (1–999)."
+  }
+};
 
 // Initialize cart from localStorage or as an empty array
 // This ensures that the cart data persists even if the user closes and reopens the browser.
@@ -121,7 +139,7 @@ document.getElementById("add-and-checkout").addEventListener("click", () => {
  */
 function handleOverlayAdd() {
   if (!selectedProduct) {
-    showMessageBox("No product selected. Please select a product first.");
+    showMessageBox(TEXT[LANG].pleaseSelect);
     return false;
   }
 
@@ -135,7 +153,7 @@ function handleOverlayAdd() {
   // Validate quantity input
   if (isNaN(qty) || qty < 1 || qty > 999) {
     // Use a custom message box instead of alert() for better UX
-    showMessageBox("Please enter a valid quantity (1–999).");
+    showMessageBox(TEXT[LANG].invalidQty);
     return false;
   }
 
