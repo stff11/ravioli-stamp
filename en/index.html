@@ -364,7 +364,17 @@
     <p>&copy; 2025 Pasta Fresca</p>
   </footer>
 
-<script src="../js/script.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".language-switcher a").forEach(link => {
+      link.addEventListener("click", function (e) {
+        const lang = link.getAttribute("href").split("/")[1]; // extract lang code
+        document.cookie = `langPref=${lang}; path=/; max-age=31536000`;
+      });
+    });
+  });
+</script>
+  <script src="../js/script.js"></script>
 
 </body>
 </html>
